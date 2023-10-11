@@ -3,14 +3,6 @@ const backend_base_url = "http://127.0.0.1:8000"
 
 
 
-// const url = window.location.href
-// // const wish_id_call = window.location.pathname
-// // const wish_id = url.get('wish_id'); 
-// console.log(url)
-
-// const url_split = url.split(["?"])[1]
-// const wish_id = url_split.split(["="])[1]
-// console.log(wish_id)
 
 function wishIdSearch() {
     const url = window.location.href
