@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <h1>메인 페이지</h1>
+    <h3>
+        <div id="user_info" style="display:none">반갑습니다 
+            <a href="/user/feed.html">
+                <span id="user_username"></span>님
+                <img id="user_profile_img"></img>
+            </a>
+        </div>
+    </h3>
+    <form>
+        <button type="button" onclick="handleLogout()" style="display:none" id="btn_logout">로그아웃</button>
+    </form>
+    <div id="btn_sign_up_page">
+        <a href="/user/signup.html">
+            <button>회원가입 페이지 가기</button>
+        </a>
+    </div>
+    <div id="btn_login_page">
+        <a href="/user/login.html">
+            <button>로그인 페이지 가기</button>
+        </a>
+    </div>
+    <div id="id_wish_list">
+
+    </div>
+
+
+</body>
+</html>

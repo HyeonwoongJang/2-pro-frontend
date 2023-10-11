@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>detail</title>
+    <script src="detail.js"></script>
+</head>
+<body>
+    <h1 id="wish-title" class="mb-3">wish title</h1>
+    <div class="row row-cols-1 row-cols-md-2" id="wish">
+        <div id="wish-image" class="col">wish 사진</div>
+        <div id="wish-name" class="col">wish 상품명</div>
+        <div id="wish-content" class="col">wish 내용</div>
+        
+    </div>
+    <div>
+    <ul class="comment">
+        
+        <li class="comment-form">
+        <form>
+            <label>댓글 등록</label>
+            <input type="text" id="comment_create">
+            <button type="button" onclick="handleCommentCreate()">댓글 작성</button>
+        </form>
+        </li>
+       
+        
+        <div id="comment-list">
+            <ul class="row row-cols-1 row-cols-md-2 mb-3" id="comment">
+                <li id="comment-author" class="col">comment author</div>
+                <li id="comment-content" class="col">comment content</div>
+                <li id="comment-created" class="col">comment-created</div>
+            </ul>
+        </div>
+        
+    </ul>
+    </div>
+
+</body>
+</html>
