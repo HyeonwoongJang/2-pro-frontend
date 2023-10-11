@@ -74,7 +74,7 @@ async function handleSignup() {
     if (response.status === 201) {
       // 회원가입 성공
       alert("회원가입이 성공적으로 완료되었습니다.");
-      window.location.href = "/login/"; // 로그인 페이지 URL로 이동
+      window.location.href = "/user/login.html";
     } else if (response.status === 400) {
       // 유효성 검사 실패 시 오류 메시지를 받아와 화면에 표시
       const errorData = await response.json();
