@@ -20,9 +20,7 @@ window.onload = () => {
         //console.log(payload_parse.profile_img)
         if (payload_parse.profile_img) {
             user_profile_img.src = "http://127.0.0.1:8000" + payload_parse.profile_img
-        } else {
-            user_profile_img.src = "/media/user/profile_img/2023/10/10/10/23/%EC%A1%B1%EB%B0%9C%EC%97%94_%EC%86%8C%EB%A7%A5.jpg"
-        }
+        } 
 
         const wish_create_page = document.getElementById("wish_create_page")
         wish_create_page.href = "http://127.0.0.1:5500/wish/create.html"
