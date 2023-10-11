@@ -10,7 +10,7 @@ window.onload = () => {
         //console.log(payload_parse)
 
         const user_feed_page = document.getElementById("user_feed_page")
-        user_feed_page.href = "http://127.0.0.1:5500/user/feed.html?author=" + payload_parse.username
+        user_feed_page.href = "/user/feed.html?author=" + payload_parse.username
 
         const user_username = document.getElementById("user_username")
         //console.log(payload_parse.username)
@@ -23,7 +23,7 @@ window.onload = () => {
         } 
 
         const wish_create_page = document.getElementById("wish_create_page")
-        wish_create_page.href = "http://127.0.0.1:5500/wish/create.html"
+        wish_create_page.href = "/wish/create.html"
 
         // 로그인 한 유저의 프로필 이미지(image 태그)의 class 값을 설정 -> css 파일에 style 정의
         user_profile_img.classList.add("profile_img")
@@ -158,10 +158,10 @@ function rander_wish(wish) {
     wish_author_a.innerText = wish.author
 
     // 위시 작성자(a 태그)의 href 속성 값을 설정 (해당 유저 피드 페이지 url 주소)
-    wish_author_a.href = "http://127.0.0.1:5500/user/feed.html?author=" + wish.author
+    wish_author_a.href = "/user/feed.html?author=" + wish.author
 
     // 해당 위시의 href 속성 값을 설정 (해당 위시의 상세 페이지 url 주소)
-    wish_url_a.href = "http://127.0.0.1:5500/wish/detail.html?wish_id=" + wish.id
+    wish_url_a.href = "/wish/detail.html?wish_id=" + wish.id
 
     // 해당 p 태그의 내용을 위시의 제목으로 설정
     wish_title_p.innerText = wish.title
@@ -171,9 +171,6 @@ function rander_wish(wish) {
     if (wish.images.length > 0) {
         thumbnail = wish.images[0].image
         //console.log(thumbnail)
-    } else {
-        default_image_url = "/media/user/profile_img/2023/10/10/10/23/%EC%A1%B1%EB%B0%9C%EC%97%94_%EC%86%8C%EB%A7%A5.jpg"
-        thumbnail = default_image_url
     }
 
     // 위시 썸네일(image 태그)의 src 속성 값을 설정 (해당 위시에 등록한 첫 번째 이미지 주소)
