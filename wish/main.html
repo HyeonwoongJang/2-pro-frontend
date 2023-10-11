@@ -11,7 +11,7 @@
     <h1>메인 페이지</h1>
     <h3>
         <div id="user_info" style="display:none">반갑습니다 
-            <a href="http://127.0.0.1:5500/user/feed.html">
+            <a id="user_feed_page">
                 <span id="user_username"></span>님
                 <img id="user_profile_img"></img>
             </a>
@@ -28,6 +28,30 @@
     <div id="btn_login_page">
         <a href="http://127.0.0.1:5500/user/login.html">
             <button>로그인 페이지 가기</button>
+        </a>
+    </div>
+        <div>
+        <select id="sort_option">
+            <option>정렬 옵션</option>
+            <option value="latest">최신순</option>
+            <option value="most_likes">좋아요 많은 순</option>
+            <option value="most_bookmarks">북마크 많은 순</option>
+        </select>
+        <button type="button" onclick="sort()">정렬</button>
+        </div>
+    <div>
+        <select id="category_option">
+            <option>검색 옵션</option>
+            <option value="title">위시 제목</option>
+            <option value="content">위시 내용</option>
+            <option value="author">작성자</option>
+        </select>
+        <input type="text" id="search_box" placeholder="검색어를 입력해주세요">
+        <button type="button" onclick="search()">검색</button>
+    </div>
+    <div>
+        <a id="wish_create_page">
+            <button type="button">위시 작성하기</button>
         </a>
     </div>
     <div id="id_wish_list">
