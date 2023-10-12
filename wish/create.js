@@ -14,6 +14,7 @@ async function request() {
     const data = await response.json();
 
     document.getElementById("nav_profile_img").src = `http://127.0.0.1:8000${data.profile_img}/`;
+    document.getElementById("author_profile_img").src = `http://127.0.0.1:8000${data.profile_img}/`;
     document.getElementById("wish_create_author").innerText = JSON.parse(localStorage.getItem("payload")).username
 }
 
@@ -48,17 +49,32 @@ async function handleWishCreate() {
     } else if (response.status == 400) {
         console.log("title, content, wish_name, tags은 필수 입력값입니다.")
         if (document.getElementById("wish_create_title").value == "") {
-            document.getElementById("wish_create_title").style.borderBlockColor = "red";
-            document.getElementById("wish_create_title").ariaPlaceholder = "title을 입력해주세요."
-        } 
+            document.getElementById("wish_create_title").classList.remove("border-secondary-subtle");
+            document.getElementById("wish_create_title").classList.add("border-danger", "shadow-sm");
+        } else {
+            document.getElementById("wish_create_title").classList.add("border-secondary-subtle");
+            document.getElementById("wish_create_title").classList.remove("border-danger", "shadow-sm");
+        }
         if (document.getElementById("wish_create_wish_name").value == "") {
-            document.getElementById("wish_create_wish_name").style.borderBlockColor = "red";
-        } 
+            document.getElementById("wish_create_wish_name").classList.remove("border-secondary-subtle");
+            document.getElementById("wish_create_wish_name").classList.add("border-danger", "shadow-sm");
+        } else {
+            document.getElementById("wish_create_wish_name").classList.add("border-secondary-subtle");
+            document.getElementById("wish_create_wish_name").classList.remove("border-danger", "shadow-sm");
+        }
         if (document.getElementById("wish_create_content").value == "") {
-            document.getElementById("wish_create_content").style.borderBlockColor = "red";
+            document.getElementById("wish_create_content").classList.remove("border-secondary-subtle");
+            document.getElementById("wish_create_content").classList.add("border-danger", "shadow-sm");
+        } else {
+            document.getElementById("wish_create_content").classList.add("border-secondary-subtle");
+            document.getElementById("wish_create_content").classList.remove("border-danger", "shadow-sm");
         }
         if (document.getElementById("wish_create_tags").value == "") {
-            document.getElementById("wish_create_tags").style.borderBlockColor = "red";
+            document.getElementById("wish_create_tags").classList.remove("border-secondary-subtle");
+            document.getElementById("wish_create_tags").classList.add("border-danger", "shadow-sm");
+        } else {
+            document.getElementById("wish_create_tags").classList.add("border-secondary-subtle");
+            document.getElementById("wish_create_tags").classList.remove("border-danger", "shadow-sm");
         }
     } else {
         console.log("Unauthorized. 로그인 해주세요.")

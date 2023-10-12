@@ -72,25 +72,25 @@
                     <div class="col">
                         <img id="my_profile_img" style="width: 400px; height: 400px; object-fit: cover;" class="img-fluid rounded-circle border border-3 shadow"> <br>
                         <label for="update_profile_img" class="btn btn-outline-secondary shadow-sm" style="margin: 30px;">이미지 업로드</label>
-                        <input style="display: none;" id="update_profile_img" type="file" accept=".png, .jpg"><br>
+                        <input style="display: none;" id="update_profile_img" type="file" accept=".png, .jpg" onchange="hadleProfilePreview(this)"><br>
                     </div>
                     
-                    <div class="col">
+                    <div class="col" style="margin-right: 100px;">
                             <ul class="list-group list-group-horizontal-xxl shadow-sm">
-                                <li class="list-group-item col-2 list-group-item-primary">이메일 : </li>
-                                <li class="list-group-item col-10"> <span id="my_email"></span></li>
+                                <li class="list-group-item col-2 list-group-item-secondary fw-semibold" style="display: flex; align-items: center; justify-content: flex-end;">이메일 : </li>
+                                <li class="list-group-item col-10" style="display: flex;"> <span id="my_email" class="btn"></span></li>
                             </ul>
                             <ul class="list-group list-group-horizontal-xxl shadow-sm" style="margin-top: 10px;">
-                                <li class="list-group-item col-2 list-group-item-primary" style="text-align: center;">비밀번호 : </li>
-                                <li class="list-group-item col-10"><button type="button" id="update_password" onclick="OpenModal()"  class="btn btn-outline-secondary shadow-sm">변경하기</button></li>
+                                <li class="list-group-item col-2 list-group-item-secondary fw-semibold" style="display: flex; align-items: center; justify-content: flex-end;">비밀번호 : </li>
+                                <li class="list-group-item col-10" style="display: flex;"><button type="button" id="update_password" onclick="OpenModal()"  class="btn btn-outline-secondary shadow-sm">변경하기</button></li>
                             </ul>
                             <ul class="list-group list-group-horizontal-xxl shadow-sm" style="margin-top: 10px;">
-                                <li class="list-group-item col-2 list-group-item-primary">username : </li>
-                                <li class="list-group-item col-10"><input id="update_username"></li>
+                                <li class="list-group-item col-2 list-group-item-secondary fw-semibold" style="display: flex; align-items: center; justify-content: flex-end;">username : </li>
+                                <li class="list-group-item col-10" style="display: flex;"><input id="update_username" class="btn border border-secondary-subtle rounded w-100"></li>
                             </ul>
                             <ul class="list-group list-group-horizontal-xxl shadow-sm" style="margin-top: 10px;">
-                                <li class="list-group-item col-2 list-group-item-primary">생년월일 : </li>
-                                <li class="list-group-item col-10"><input type="date" id="update_birthday"></span></li>
+                                <li class="list-group-item col-2 list-group-item-secondary fw-semibold" style="display: flex; align-items: center; justify-content: flex-end;">생년월일 : </li>
+                                <li class="list-group-item col-10" style="display: flex;"><input type="date" id="update_birthday" class="btn border border-secondary-subtle rounded w-100"></span></li>
                             </ul>
                             <span id="profile_update_errors" style="color: red;"></span> <br>
 
@@ -103,17 +103,33 @@
         
     </form>
 
-    <!-- <button id="modalOpenButton" onclick="OpenModal()">모달창 열기</button> -->
-
-    <div id="modalContainer" class="hidden">
-    <div id="modalContent">
-        <span>현재 비밀번호 : </span> <input type="password" id="update_present_pw"> <br>
-        <span>새로운 비밀번호 : </span> <input type="password" id="update_password_"> <br>
-        <span>비밀번호 확인 : </span> <input type="password" id="update_password_check"> <br>
-        <span id="pw_update_errors" style="color: red;"></span> <br>
-        <button type="button" id="pw_submit_btn" onclick="handleUpdatePassword()">수정</button>
-        <button id="modalCloseButton">닫기</button>
-    </div>
-    </div>
+    <div id="modalContainer" class="modal hidden" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"><b>비밀번호 변경</b></h5>
+              <button id="modalCloseButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">현재 비밀번호</span>
+                    <input type="password" id="update_present_pw" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">새로운 비밀번호</span>
+                    <input type="password" id="update_password_" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">비밀번호 확인</span>
+                    <input type="password" id="update_password_check" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <span id="pw_update_errors" style="color: red;"></span> <br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="pw_submit_btn" class="btn btn-secondary" onclick="handleUpdatePassword()" data-bs-dismiss="modal">수정</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 </html>

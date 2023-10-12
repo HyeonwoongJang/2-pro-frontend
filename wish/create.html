@@ -42,11 +42,12 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row d-flex">
-                        <div class="col-9">
-                            <span id="wish_create_author"></span>
+                        <div class="col-9" style="display: flex; align-items: center;">
+                            <img id="author_profile_img" alt="프로필 이미지" width="40" height="40" style="border-radius: 20px;" class="d-inline-block align-text-top">
+                            <b><span id="wish_create_author" style="margin-left: 20px;" class="align-middle"></span></b>
                         </div>
                         <div class="col-3" style="display: flex; justify-content: flex-end;">
-                            <label for="wish_create_images" class="btn btn-outline-secondary btn-sm" accept=".png, .jpg, jpeg">이미지 업로드</label>
+                            <label for="wish_create_images" class="btn btn-outline-secondary btn-sm" accept=".png, .jpg, jpeg" style="display: flex; align-items: center;">이미지 업로드</label>
                             <input type="file" accept=".png, .jpg" multiple="True" id="wish_create_images" onchange="readURL(this)" style="display: none;"/>
                         </div>
                     </div>
@@ -56,7 +57,6 @@
                         
                 </div>
               <div class="card-body">
-                <!-- <textarea style="height: 100%; width: 100%; background-color: #f0f0f0; border-radius: 5px; border: 0px;" name="content" id="content">{{ code.content }}</textarea> -->
                 <div id="carouselExample" class="carousel slide">
                     <div class="carousel-inner" id="imagePreviewContainer">
                       <div class="carousel-item active">
@@ -79,7 +79,7 @@
                       wish name : 
                     </div>
                     <div class="col-9">
-                      <input type="text" id="wish_create_wish_name" style="width: 100%;"/>
+                      <input type="text" id="wish_create_wish_name" style="width: 100%;" class="border border-secondary-subtle rounded"/>
                     </div>
                   </div>
               </div>
@@ -91,15 +91,16 @@
                         title :
                       </div>
                       <div class="col-10">
-                        <input type="text" id="wish_create_title" style="width: 100%;"/>
+                        <input type="text" id="wish_create_title" style="width: 100%;" class="border border-secondary-subtle rounded"/>
                       </div>
                     </div>
                 </div>
               <div class="card-body">
                 <textarea
                     id="wish_create_content"
-                    style="height: 100%; width:100%; background-color: #f0f0f0; border-radius: 5px; border: 0px;"
-                > </textarea>
+                    style="height: 100%; width:100%; background-color: #f0f0f0;"
+                    class="border border-secondary-subtle rounded"
+                ></textarea>
               </div>
               <div class="card-footer bg-light-subtle">
                 <div class="row d-flex">
@@ -109,7 +110,7 @@
                               tags :
                             </div>
                             <div class="col-10">
-                                <input type="text" id="wish_create_tags" placeholder="공백으로 구분하여 주세요." style="width: 100%;"/>
+                                <input type="text" id="wish_create_tags" placeholder="  공백으로 구분하여 주세요." style="width: 100%;" class="border border-secondary-subtle rounded"/>
                             </div>
                           </div>
                     </div>
@@ -121,22 +122,6 @@
               </div>
             </div>
           </div>
-
-
-        <!-- <span>author : </span> <span id="wish_create_author"></span>
-        <br>
-        <span>title : </span> <input type="text" id="wish_create_title"/>
-        <br>
-        <span>tags : </span> <input type="text" id="wish_create_tags" placeholder="공백으로 구분하여 주세요."/>
-        <br>
-        <span>wish_name : </span> <input type="text" id="wish_create_wish_name"/>
-        <br>
-        <span>content : </span>
-        <textarea id="wish_create_content"></textarea>
-        <br> -->
-
-        <!-- <div id="imagePreviewContainer"></div> -->
-        <!-- <div id="wish_create_images_preview"></div> -->
     </form>
 </body>
 </html>
