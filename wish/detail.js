@@ -28,15 +28,20 @@ async function loadWish(){
 
     wishAuthor.innerText = response_json.author
     wishAuthor.href = `${frontend_base_url}/user/mypage.html?author=` + response_json.author
+    wishAuthor.style.textAlign
     // tag들 불러오기
-    if (response_json.tags.length > 0) {
+    if (response_json.tags) {
         
         for (let i = 0; i < response_json.tags.length; i++) {
 
             const wishTag = document.createElement('span')
             wishTag.setAttribute("id",`wishTag${i}`)
-            wishTag.setAttribute("class","border border-5 border-dark")
+            wishTag.setAttribute("class","border border-2 border-dark")
             wishTag.innerText = response_json.tags[i].name
+            
+            wishTag.style.borderStyle ="solid"
+            // wishTag.style.setAttribute("class", "badge bg-light text-dark")
+            
             wishTags.appendChild(wishTag)        
         }
     } else {}
@@ -51,7 +56,8 @@ async function loadWish(){
     if (response_json.images && response_json.images.length > 0) {
         let imagesHtml = '';
         for (let i = 0; i < response_json.images.length; i++) {
-            imagesHtml += `<img src="${backend_base_url}${response_json.images[i].image}" alt="Wish Image">`;    // alt -> img 태그에서 img가 안 나왔을 때 img를 대체하는 문자열/정보
+            imagesHtml += `<img src="${backend_base_url}${response_json.images[i].image}" alt="Wish Image" class="img"><br>`;    // alt -> img 태그에서 img가 안 나왔을 때 img를 대체하는 문자열/정보
+
         }
         wishImage.innerHTML = imagesHtml;
     } else {
@@ -289,11 +295,10 @@ async function loadComments() {
         for (let i = 0; i < comments.length; i++) {
 
             const comment_div = document.createElement('div')
-            comment_div.name =comments[i].id
             
             // comment id
             const comment_author = document.createElement('span')
-            const comment_author_img = document.createElement('img')
+            // const comment_author_img = document.createElement('img')
             const comment_author_a = document.createElement('a')
             const comment_content_span = document.createElement('span')
             const comment_created_span = document.createElement('span')
@@ -307,7 +312,7 @@ async function loadComments() {
             // comment_author_img.src = `${backend_base_url}` + comments.author.profile_img.src
 
             
-            comment_author.appendChild(comment_author_img)
+            // comment_author.appendChild(comment_author_img)
             comment_author.appendChild(comment_author_a)
             comment_div.appendChild(comment_author)
             comment_div.appendChild(comment_content_span)
@@ -322,6 +327,7 @@ async function loadComments() {
                 const comment_delete_btn = document.createElement('button')
                 comment_delete_btn.type = 'button'
                 comment_delete_btn.innerText = "삭제"
+                comment_delete_btn.style.textAlign
                 comment_delete_btn.setAttribute("onclick", `commentDelete(${comments[i].id})`)  // comment의 pk값을 commentDelete함수의 인자에 넣어서 데이터를 보내준다.
                 comment_div.appendChild(comment_delete_btn)
             } else {}
