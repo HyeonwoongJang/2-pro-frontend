@@ -18,7 +18,6 @@ async function handleLogin() {
             "password" : password
         })
     })
-    //console.log(response)
 
     if (response.status == 200) {
 
@@ -38,8 +37,15 @@ async function handleLogin() {
 
         alert('로그인 성공')
 
-        window.location.href = "http://127.0.0.1:5500/wish/main.html"
-    } else {
-        alert('로그인 실패. 다시 시도하세요.')
+        window.location.href = "/wish/main.html"
+    } 
+    else if (response.status == 401) {
+        document.getElementById("error-message").innerText = '이메일 인증을 진행하세요.';
+    }
+    else if (response.status == 404) {
+        document.getElementById("error-message").innerText = '사용자를 찾을 수 없습니다. 로그인 정보를 확인하세요.';
+    }
+    else {
+        document.getElementById("error-message").innerText = '로그인 실패. email과 password는 필수 입력값입니다.';
     }
 }

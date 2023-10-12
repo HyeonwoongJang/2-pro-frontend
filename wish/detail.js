@@ -282,7 +282,7 @@ async function loadComments() {
             const comment_created_span = document.createElement('span')
 
             comment_author_a.innerText = comments[i].author
-            comment_author_a.href = "http://127.0.0.1:5500/user/feed.html?author=" + comments[i].author
+            comment_author_a.href = "/user/feed.html?author=" + comments[i].author
             comment_content_span.innerText = comments[i].content
             comment_created_span.innerText = comments[i].created_at
 
