@@ -5,27 +5,7 @@ let followingfeedPage = 1;
 
 window.onload = () => {
     console.log('메인 페이지 연결 완료')
-    request();
-
-    async function request() {
-        const payload = localStorage.getItem("payload")
-        const payload_parse = JSON.parse(payload) 
-        console.log(payload_parse.profile_img)
-        const request_user_id = payload_parse.user_id
     
-        const response = await fetch(`http://127.0.0.1:8000/users/profile/${request_user_id}/`, {
-            method: 'GET',
-            headers: {
-                "Authorization" : "Bearer " + localStorage.getItem("access")
-            },
-        });
-        const data = await response.json();
-        console.log(data)
-    
-        // payload_parse.profile_img 로 하면, 로그인 당시의 이미지로 되고 중간에 수정된 이미지가 반영이 안 됨.
-        document.getElementById("nav_profile_img").src = `http://127.0.0.1:8000${data.profile_img}/`;
-    }
-
     if (localStorage.getItem("access")) {
 
         const payload = localStorage.getItem("payload")
