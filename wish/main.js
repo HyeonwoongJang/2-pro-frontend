@@ -5,38 +5,32 @@ let followingfeedPage = 1;
 
 window.onload = () => {
     console.log('메인 페이지 연결 완료')
-    
+
     if (localStorage.getItem("access")) {
-
-        const payload = localStorage.getItem("payload")
-    
-        const payload_parse = JSON.parse(payload)
- 
-        const request_user_id = payload_parse.user_id
-
-        loadProfileInfo(request_user_id)
-
-        const wish_create_page = document.getElementById("wish_create_page")
-        wish_create_page.href = "/wish/create.html"
-
-        // 로그인 한 유저의 프로필 이미지(image 태그)의 class 값을 설정 -> css 파일에 style 정의
-        user_profile_img.classList.add("profile_img")
-
-        // 로그인한 유저에게는 로그아웃 버튼과 프로필사진이 보이고, 회원가입 버튼과 로그인 버튼이 안보이게 설정
-
-        document.getElementById("user_info").style.display = ""
-        document.getElementById("btn_logout").style.display = ""
-        document.getElementById("wish_create_page").style.display = ""
-        document.getElementById("following_feed_option").style.display = "none"
+        document.getElementById("nav_wish_create_page").style.display = ""
+        document.getElementById("nav_logout").style.display = ""
+        document.getElementById("nav_my_page").style.display = ""
+        document.getElementById("nav_user_username").style.display = ""
+        document.getElementById("nav_profile_img").style.display = ""
         document.getElementById("wish_feed").style.display = ""
         document.getElementById("following_feed").style.display = ""
-        document.getElementById("btn_sign_up_page").style.display = "none"
-        document.getElementById("btn_login_page").style.display = "none"
 
+        
+        
+        
+        document.getElementById("nav_sign_up_page").style.display = "none"
+        document.getElementById("nav_login_page").style.display = "none"
+
+        request();
     }
 
-    async function loadProfileInfo(user_id) {
-        const response = await fetch(`http://127.0.0.1:8000/users/profile/${user_id}/`, {
+    async function request() {
+        const payload = localStorage.getItem("payload")
+        const payload_parse = JSON.parse(payload) 
+        console.log(payload_parse.profile_img)
+        const request_user_id = payload_parse.user_id
+    
+        const response = await fetch(`http://127.0.0.1:8000/users/profile/${request_user_id}/`, {
             method: 'GET',
             headers: {
                 "Authorization" : "Bearer " + localStorage.getItem("access")
@@ -45,16 +39,10 @@ window.onload = () => {
         const data = await response.json();
         console.log(data)
 
-        const user_my_page = document.getElementById("user_my_page");
-        user_my_page.href = "/user/mypage.html?author=" + data.username;
-
-        const user_username = document.getElementById("user_username")
-        user_username.innerText = data.username 
-
-        const user_profile_img = document.getElementById("user_profile_img")
-        if (data.profile_img) {
-            user_profile_img.src = "http://127.0.0.1:8000" + data.profile_img
-        }
+        // payload_parse.profile_img 로 하면, 로그인 당시의 이미지로 되고 중간에 수정된 이미지가 반영이 안 됨.
+        document.getElementById("nav_profile_img").src = `http://127.0.0.1:8000${data.profile_img}/`;
+        document.getElementById('nav_user_username').innerText = data.username
+        document.getElementById('nav_my_page').href = `/user/mypage.html?author=${data.username}`
     }
 
     loadMainPage(currentPage)
@@ -164,15 +152,15 @@ function handleLogout() {
     localStorage.removeItem('refresh')
     localStorage.removeItem('payload')
 
-    
-    document.getElementById("user_info").style.display = 'none'
-    document.getElementById("btn_logout").style.display = 'none'
-    document.getElementById("wish_create_page").style.display = "none"
-    document.getElementById("btn_sign_up_page").style.display = ""
-    document.getElementById("btn_login_page").style.display = ""
+    document.getElementById("nav_wish_create_page").style.display = 'none'
+    document.getElementById("nav_logout").style.display = 'none'
+    document.getElementById("nav_my_page").style.display = 'none'
+    document.getElementById("nav_user_username").style.display = 'none'
+    document.getElementById("nav_profile_img").style.display = 'none'
 
-    document.getElementById("btn_myprofile_page").style.display = "none"
-    
+    document.getElementById("nav_sign_up_page").style.display = ""
+    document.getElementById("nav_login_page").style.display = ""
+
 }
 
 
@@ -234,14 +222,14 @@ async function sortMain(page) {
         sorted_next_page.style.display= ""
         sorted_previous_page.style.display= "none"
         sorted_next_page.onclick = function () {
-                sortMain(page + 1);
-            }
+            sortMain(page + 1);
+        }
     } else if (!response_json.next && response_json.previous) {
         sorted_next_page.style.display= "none"
         sorted_previous_page.style.display= ""
         sorted_previous_page.onclick = function () {
             sortMain(page - 1);
-            }
+        }
     } else {
         sorted_next_page.style.display= "none"
         sorted_previous_page.style.display= "none"
