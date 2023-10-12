@@ -57,12 +57,12 @@ async function loadWish(){
     if (response_json.images && response_json.images.length > 0) {
         let imagesHtml = '';
         for (let i = 0; i < response_json.images.length; i++) {
-            imagesHtml += `<img src="${backend_base_url}${response_json.images[i].image}" alt="Wish Image" class="img"><br>`;    // alt -> img 태그에서 img가 안 나왔을 때 img를 대체하는 문자열/정보
+            imagesHtml += `<img src="${backend_base_url}${response_json.images[i].image}" alt="Wish Image" class="wish_image"><br>`;    // alt -> img 태그에서 img가 안 나왔을 때 img를 대체하는 문자열/정보
 
         }
         wishImage.innerHTML = imagesHtml;
     } else {
-            wishImage.innerHTML = `<img src="${backend_base_url}/media/images/DefaultThumbnail.png" alt="Default Image">`;
+            wishImage.innerHTML = `<img src="${backend_base_url}/media/images/DefaultThumbnail.png" alt="Default Image" class=wish_image>`;
         }
     
     var wish_author = wishAuthor.innerText
@@ -197,31 +197,31 @@ async function loadWishInfo(){
     const wish = await response.json()
     console.log(wish)
 
-
     const wish_detail_div = document.getElementById('wish_detail')
     const wish_info_div = document.getElementById('wish_info')
-    const wish_like_bookmark =document.getElementById('like_bookmark')
-
-    const wish_created = document.createElement('time')
-
+    const wish_info_time = document.getElementById('wish_info_time')
     const wish_created_span =document.getElementById('wish_created')
     const wish_updated_span = document.getElementById('wish_updated')
-    const wish_likes_span = document.getElementById('likes')
-    const wish_bookmarks_span = document.getElementById('bookmarks')
+    
+    const bookmarks_span = document.getElementById('bookmarks')
+    const likes_span = document.getElementById('likes')
+    const wish_like_bookmark =document.getElementById('like_bookmark')
+    const likes_list = document.getElementById('likes-list')
+    const bookmarks_list = document.getElementById('bookmarks-list')
 
-    wish_created =  wish.created_at
-    wish_created_span.innerHTML = '작성시간: + <time datetime="YYYY-MM-DDThh">'
-    wish_updated_span.innerText = "수정시간: " + wish.updated_at
+    wish_created_span.innerText = '작성시간: '+ wish.created_at.slice(2,19)
+    wish_updated_span.innerText = "수정시간: " + wish.updated_at.slice(2,19)
 
-    wish_info_div.appendChild(wish_created_span)
-    wish_info_div.appendChild(wish_updated_span)
-    wish_likes_span.innerText = wish.likes_count + " likes "
+    wish_info_time.appendChild(wish_created_span)
+    wish_info_time.appendChild(wish_updated_span)
+
+    likes_list.innerText = wish.likes_count
     // wish_likes_span.onclick = wish.likes // 위시를 like한 유저들 리스트 (미완성)
-    wish_bookmarks_span.innerText = wish.bookmarks_count + " bookmarks"
+    bookmarks_list.innerText = wish.bookmarks_count
     // wish_bookmarks_span.onclick = wish.bookmarks // 위시를 bookmark한 유저들 리스트(미완성)
 
-    wish_like_bookmark.appendChild(wish_likes_span)
-    wish_like_bookmark.appendChild(wish_bookmarks_span)
+    likes_span.appendChild(likes_list)
+    bookmarks_span.appendChild(bookmarks_list)
     wish_info_div.appendChild(wish_like_bookmark)
     wish_detail_div.appendChild(wish_info_div)
 
@@ -299,6 +299,7 @@ async function loadComments() {
         for (let i = 0; i < comments.length; i++) {
 
             const comment_div = document.createElement('div')
+            comment_div.class ="comment"
             
             // comment id
             const comment_author = document.createElement('span')
