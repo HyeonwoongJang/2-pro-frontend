@@ -17,74 +17,78 @@
             </a>
         </div>
     </h3>
-    <form>
-        <button type="button" onclick="handleLogout()" style="display:none" id="btn_logout">로그아웃</button>
-    </form>
-    <div id="btn_sign_up_page">
-        <a href="/user/signup.html">
-            <button>회원가입 페이지 가기</button>
-        </a>
-    </div>
-    <div id="btn_login_page">
-        <a href="/user/login.html">
-            <button>로그인 페이지 가기</button>
-        </a>
-    </div>
-    <div id="btn_myprofile_page">
-        <a href="/user/myprofile.html">
-            <button>나의 프로필 페이지 가기</button>
-        </a>
-    </div>
-    <div id="wish_feed_option">
-        <div>
-            <form>
-                <select id="sort_option" >
-                    <option>정렬 옵션</option>
-                    <option value="latest">최신순</option>
-                    <option value="most_likes">좋아요 많은 순</option>
-                    <option value="most_bookmarks">북마크 많은 순</option>
-                </select>
-                <button type="button" onclick="sort()">정렬</button>
-            </form>
+    <div>
+        <form>
+            <button type="button" onclick="handleLogout()" style="display:none" id="btn_logout">로그아웃</button>
+        </form>
+        <div id="btn_sign_up_page">
+            <a href="/user/signup.html">
+                <button>회원가입 페이지 가기</button>
+            </a>
         </div>
-        <div>
-            <form>
-                <select id="category_option">
-                    <option>검색 옵션</option>
-                    <option value="title">위시 제목</option>
-                    <option value="content">위시 내용</option>
-                    <option value="author">작성자</option>
-                    <option value="tag">태그</option>
-                </select>
-                <input type="text" id="search_box" placeholder="검색어를 입력해주세요">
-                <button type="button" onclick="search()">검색</button>
-            </form>
+        <div id="btn_login_page">
+            <a href="/user/login.html">
+                <button>로그인 페이지 가기</button>
+            </a>
+        </div>
+        <div id="btn_myprofile_page">
+            <a href="/user/myprofile.html">
+                <button>나의 프로필 페이지 가기</button>
+            </a>
         </div>
     </div>
-    <div id="following_feed_option">
-        <div>
-            <form>
-                <select id="f-sort_option">
-                    <option>정렬 옵션</option>
-                    <option value="f-latest">최신순</option>
-                    <option value="f-most_likes">좋아요 많은 순</option>
-                    <option value="f-most_bookmarks">북마크 많은 순</option>
-                </select>
-                <button type="button" onclick="following_sort()">정렬</button>
-            </form>
+    <div>
+        <div id="wish_feed_option">
+            <div>
+                <form>
+                    <select id="sort_option" >
+                        <option>정렬 옵션</option>
+                        <option value="latest">최신순</option>
+                        <option value="most_likes">좋아요 많은 순</option>
+                        <option value="most_bookmarks">북마크 많은 순</option>
+                    </select>
+                    <button type="button" onclick="sort()" id="sort">정렬</button>
+                </form>
+            </div>
+            <div>
+                <form>
+                    <select id="category_option">
+                        <option>검색 옵션</option>
+                        <option value="title">위시 제목</option>
+                        <option value="content">위시 내용</option>
+                        <option value="author">작성자</option>
+                        <option value="tag">태그</option>
+                    </select>
+                    <input type="text" id="search_box" placeholder="검색어를 입력해주세요">
+                    <button type="button" onclick="search()" id="search">검색</button>
+                </form>
+            </div>
         </div>
-        <div>
-            <form>
-                <select id="f-category_option">
-                    <option>검색 옵션</option>
-                    <option value="f-title">위시 제목</option>
-                    <option value="f-content">위시 내용</option>
-                    <option value="f-author">작성자</option>
-                    <option value="">태그</option>
-                </select>
-                <input type="text" id="f-search_box" placeholder="검색어를 입력해주세요">
-                <button type="button" onclick="following_search()">검색</button>
-            </form>
+        <div id="following_feed_option">
+            <div>
+                <form>
+                    <select id="f-sort_option">
+                        <option>정렬 옵션</option>
+                        <option value="f-latest">최신순</option>
+                        <option value="f-most_likes">좋아요 많은 순</option>
+                        <option value="f-most_bookmarks">북마크 많은 순</option>
+                    </select>
+                    <button type="button" onclick="following_sort()">정렬</button>
+                </form>
+            </div>
+            <div>
+                <form>
+                    <select id="f-category_option">
+                        <option>검색 옵션</option>
+                        <option value="f-title">위시 제목</option>
+                        <option value="f-content">위시 내용</option>
+                        <option value="f-author">작성자</option>
+                        <option value="">태그</option>
+                    </select>
+                    <input type="text" id="f-search_box" placeholder="검색어를 입력해주세요">
+                    <button type="button" onclick="following_search()">검색</button>
+                </form>
+            </div>
         </div>
     </div>
     <div>
@@ -92,17 +96,26 @@
             <button type="button">위시 작성하기</button>
         </a>
     </div>
-    <a href="/wish/main.html">
-        <button type="button" style="display:none" id="wish_feed">모든 위시 피드</button>
-    </a>
-    <button type="button" onclick="following_feed()" style="display:none" id="following_feed">팔로윙 피드</button>
+    <div>
+        <a href="/wish/main.html">
+            <button type="button" style="display:none" id="wish_feed">모든 위시 피드</button>
+        </a>
+        <button type="button" onclick="following_feed()" style="display:none" id="following_feed">팔로윙 피드</button>
+    </div>
     <div id="id_wish_list">
 
     </div>
-    <a href="/user/update.html">
-        <button>회원정보 수정</button>
-    </a>
-
-
+    <div id="pagination">
+        <button type="button" onclick="btn_previous_page()" id="pre_page" style="float: left; margin-right: 10px; display: none;">이전</button>
+        <button type="button" onclick="btn_next_page()"  id="next_page" style="display:none">다음</button>
+    </div>
+    <div id="sorted_pagination" style="display: none;" >
+        <button type="button" onclick="sorted_btn_previous_page()" id="sorted_pre_page" style="float: left; margin-right: 10px; display: none;">이전</button>
+        <button type="button" onclick="sorted_btn_next_page()"  id="sorted_next_page" style="display:none">다음</button>
+    </div>
+    <div id="searched_pagination" style="display: none;">
+        <button type="button" onclick="searched_btn_previous_page()" id="searched_pre_page" style="float: left; margin-right: 10px; display: none;">이전</button>
+        <button type="button" onclick="searched_btn_next_page()"  id="searched_next_page" style="display:none">다음</button>
+    </div>
 </body>
 </html>
