@@ -1,26 +1,22 @@
 window.onload = () => {
-    console.log("window loaded")
-
-    const payload = localStorage.getItem("payload")
-    const payload_parse = JSON.parse(payload)
-    const request_username = payload_parse.username
-    console.log(payload_parse)
-
-    document.getElementById("wish_create_author").innerText = request_username
+    request();
 }
 
-// input에 들어간 이미지 미리보기
-// function setPreview(input) {
-//     if (input.files && input.files[0]) {
-//       var reader = new FileReader();
-//       reader.onload = function(e) {
-//         document.getElementById('preview').src = e.target.result;
-//       };
-//       reader.readAsDataURL(input.files[0]);
-//     } else {
-//       document.getElementById('preview').src = "";
-//     }
-//   }
+async function request() {
+    const request_user_id = JSON.parse(localStorage.getItem("payload")).user_id
+
+    const response = await fetch(`http://127.0.0.1:8000/users/profile/${request_user_id}/`, {
+        method: 'GET',
+        headers: {
+            "Authorization" : "Bearer " + localStorage.getItem("access")
+        },
+    });
+    const data = await response.json();
+
+    document.getElementById("nav_profile_img").src = `http://127.0.0.1:8000${data.profile_img}/`;
+    document.getElementById("wish_create_author").innerText = JSON.parse(localStorage.getItem("payload")).username
+}
+
 
 async function handleWishCreate() {
     const formData = new FormData();
@@ -70,13 +66,36 @@ async function handleWishCreate() {
     }
 }
 
-async function handleWishImageUpload() {
-    console.log("hi")
+function readURL(input) {
+    if (input.files && input.files.length > 0) {
+        var previewContainer = document.getElementById('imagePreviewContainer');
+        
+        // 미리보기 컨테이너 초기화
+        previewContainer.innerHTML = '';
 
-    if (document.getElementById("wish_create_images").files) {
-        for (var i = 0; i < document.getElementById("wish_create_images").files.length; i++) {
-            document.getElementById("wish_create_images_preview").innerHTML = "<h1> hi </h1>" 
+        for (let i = 0; i < input.files.length; i++) { // var 말고 let 써야 함.
+            console.log(i)
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('d-block', 'w-100');
+
+                console.log(i)
+
+                var carouselItem = document.createElement('div');
+                carouselItem.classList.add('carousel-item');
+                carouselItem.appendChild(img);
+
+                if (i == 0) {
+                    carouselItem.classList.add('active');
+                }
+
+                previewContainer.appendChild(carouselItem);
+            };
+            reader.readAsDataURL(input.files[i]);
+
+            
         }
-
     }
 }
