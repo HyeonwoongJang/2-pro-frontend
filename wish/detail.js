@@ -202,7 +202,8 @@ async function loadWishInfo(){
 }
 
 
-// comment 작성 **댓글 작성하고 엔터 누르면 (http://127.0.0.1:5500/wish/detail.html?)로 이동**
+
+// comment 작성 **오류: 댓글 작성하고 엔터 누르면 (http://127.0.0.1:5500/wish/detail.html?)로 이동**
 async function submitComment() {
     wish_id=wishIdSearch()
     console.log(wish_id)
