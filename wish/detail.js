@@ -28,7 +28,8 @@ async function loadWish(){
 
     wishAuthor.innerText = response_json.author
     wishAuthor.href = `${frontend_base_url}/user/mypage.html?author=` + response_json.author
-    wishAuthor.style.textAlign
+
+
     // tag들 불러오기
     if (response_json.tags) {
         
