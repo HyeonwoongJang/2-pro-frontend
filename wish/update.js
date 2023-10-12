@@ -31,6 +31,7 @@ async function loadWish(){
     const wishContent = document.getElementById("wish-content-input")
     const wish_images = document.getElementById("wish-images")
     const wishImages = document.createElement("div")
+    wishImages.id = "wishImages"
     
     
     // image read와 image delete버튼을 담고 있는 div 만드는 반복문
@@ -103,11 +104,15 @@ async function handleUpdate() {
     const wishName = document.getElementById("wish-name-input").value
     const wishContent = document.getElementById("wish-content-input").value
 
-    // const wishImages = document.getElementById("").files
+    if (wishImages.length > 0) {
+        wishImages = document.getElementById("").files
+    }
     
     
+    const wishImages = document.getElementById("")
+    console.log(wishImages)
     const wishNewImages = document.getElementById("wish-images-input")
-    console.log(wishNewImages)
+    // console.log(wishNewImages)
     
 
 
@@ -123,19 +128,19 @@ async function handleUpdate() {
 
 
 
-    // fetch api로 put 요청
-    const access_token = localStorage.getItem("access")
-    const response = await fetch(`${(backend_base_url)}/wishes/${wish_id}/`, {
+    // // fetch api로 put 요청
+    // const access_token = localStorage.getItem("access")
+    // const response = await fetch(`${(backend_base_url)}/wishes/${wish_id}/`, {
 
-        headers : {
-            "Authorization": `Bearer ${access_token}`,
-        },
-        method : 'PUT',
-        body : formData,
-    })
-    // alert(response.status)
-    console.log(response.status)
-    window.location.href = `${frontend_base_url}/wish/detail.html?wish_id=${wish_id}`;
+    //     headers : {
+    //         "Authorization": `Bearer ${access_token}`,
+    //     },
+    //     method : 'PUT',
+    //     body : formData,
+    // })
+    // // alert(response.status)
+    // console.log(response.status)
+    // window.location.href = `${frontend_base_url}/wish/detail.html?wish_id=${wish_id}`;
 }
 
 window.onload = () =>{
