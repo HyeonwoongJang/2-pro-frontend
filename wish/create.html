@@ -13,14 +13,16 @@
         <br>
         <span>title : </span> <input type="text" id="wish_create_title"/>
         <br>
+        <span>tags : </span> <input type="text" id="wish_create_tags"/>
+        <br>
         <span>wish_name : </span> <input type="text" id="wish_create_wish_name"/>
         <br>
         <span>content : </span>
         <textarea id="wish_create_content"></textarea>
         <br>
 
-        <label for="wish_create_images" onclick="handleWishImageUpload()">이미지 업로드</label>
-        <input type="file" accept=".png, .jpg" multiple="True" id="wish_create_images"/>
+        <label for="wish_create_images" onclick="handleWishImageUpload()" onchange="setPreview();" accept=".png, .jpg, jpeg">이미지 업로드</label>
+        <input type="file" accept=".png, .jpg" multiple="True" id="wish_create_images" onchange="readURL(this)"/>
         <div id="wish_create_images_preview"></div>
 
         <button type="button" onclick="handleWishCreate()">작성</button>

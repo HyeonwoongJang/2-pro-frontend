@@ -36,6 +36,7 @@ async function loadWish(){
     const wishContent = document.getElementById("wish-content-input")
     const wish_images = document.getElementById("wish-images")
     const wishImages = document.createElement("div")
+    wishImages.id = "wishImages"
     
     
     // image read와 image delete버튼을 담고 있는 div 만드는 반복문
@@ -63,16 +64,18 @@ async function loadWish(){
         
         wishImage.appendChild(wish_img_del)
         wishImages.appendChild(wishImage)
-        wish_images.appendChild(wishImages)
+        
         }
     } else {}
-    
+    wish_images.appendChild(wishImages) // wish_images(이미지와 버튼이 들어간 wishImage들을 묶어놓은 wishImages를 )
+
     // 새로운 사진 추가
     const wishNewImages = document.createElement("div")
     const wish_img_input = document.createElement("input")
     wish_img_input.setAttribute("type", "file")
     wish_img_input.setAttribute("id", "wish-images-input")
     wish_img_input.setAttribute("multiple", "multiple")
+    wish_img_input.setAttribute("accept", ".png, .jpeg")
     
     wishNewImages.appendChild(wish_img_input)
     wish_images.appendChild(wishNewImages)
@@ -112,13 +115,15 @@ async function handleUpdate() {
     const payload_parse = JSON.parse(payload)
     const author_id = payload_parse.user_id
     
-
+    // formData에 넣어줄 값들 정의
     const wishAuthor= author_id
     const wishTitle = document.getElementById("wish-title-input").value
     const wishName = document.getElementById("wish-name-input").value
     const wishContent = document.getElementById("wish-content-input").value
 
-    // const wishImages = document.getElementById("").files
+    // if (wishImages.length > 0) {
+    //     wishImages = document.getElementById("").files
+    // }
     
     
     const wishNewImages = document.getElementById("wish-images-input").files

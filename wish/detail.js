@@ -1,7 +1,14 @@
 const frontend_base_url = "http://127.0.0.1:5500"
 const backend_base_url = "http://127.0.0.1:8000"
 
-
+function test2() {
+    document.getElementById("mydiv").style.top="100px";
+    document.getElementById("mydiv").style.left="150px";
+    document.getElementById("mydiv").style.width="400px";
+    document.getElementById("mydiv").style.height="300px";
+    document.getElementById("mydiv").style.backgroundColor="green";
+    document.getElementById("mydiv").style.position="absolute";
+}
 
 // 위시 아이디 값 찾는 함수
 function wishIdSearch() {
@@ -21,15 +28,31 @@ async function loadWish(){
 
     const wishAuthor= document.getElementById("wish-author")
     const wishTitle = document.getElementById("wish-title")
+    const wishTags = document.getElementById("wish-tags")  
     const wishName = document.getElementById("wish-name")
     const wishImage = document.getElementById("wish-image")
     const wishContent = document.getElementById("wish-content")
 
     wishAuthor.innerText = response_json.author
-    wishAuthor.href = `/user/mypage.html?author=` + response_json.author
+    wishAuthor.href = `${frontend_base_url}/user/feed.html?author=` + response_json.author
+    // tag들 불러오기
+    if (response_json.tags.length > 0) {
+        
+        for (let i = 0; i < response_json.tags.length; i++) {
+
+            const wishTag = document.createElement('span')
+            wishTag.setAttribute("id",`wishTag${i}`)
+            wishTag.setAttribute("class","border border-5 border-dark")
+            wishTag.innerText = response_json.tags[i].name
+            wishTags.appendChild(wishTag)        
+        }
+    } else {}
+    
     wishTitle.innerText = response_json.title
     wishName.innerText = response_json.wish_name
     wishContent.innerText = response_json.content
+
+    
 
     // 위시 이미지 불러오기
     if (response_json.images && response_json.images.length > 0) {
