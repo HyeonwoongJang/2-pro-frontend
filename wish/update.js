@@ -57,12 +57,14 @@ async function loadWish(){
         
 
         // 원본 이미지 삭제 버튼
+        const wish_img_del_div =document.createElement('div')
         const wish_img_del = document.createElement("button")
         wish_img_del.innerText = "이미지 삭제"
         wish_img_del.setAttribute("type", "button")        
         wish_img_del.setAttribute("onclick", `wishImgDel(wishImage${[i]}, ${response_json.images[i].id})`)
         
-        wishImage.appendChild(wish_img_del)
+        wish_img_del_div.appendChild(wish_img_del)
+        wishImage.appendChild(wish_img_del_div)
         wishImages.appendChild(wishImage)
         
         }
@@ -75,7 +77,8 @@ async function loadWish(){
     wish_img_input.setAttribute("type", "file")
     wish_img_input.setAttribute("id", "wish-images-input")
     wish_img_input.setAttribute("multiple", "multiple")
-    wish_img_input.setAttribute("accept", ".png, .jpeg")
+    // wish_img_input.setAttribute("accept", ".png, .jpeg")
+    wish_img_input.setAttribute("class", "form-control")
     
     wishNewImages.appendChild(wish_img_input)
     wish_images.appendChild(wishNewImages)
