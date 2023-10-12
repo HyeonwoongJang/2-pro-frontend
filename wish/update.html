@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update</title>
+    <script src="update.js"></script>
+</head>
+<body>
+    <h1>수정페이지</h1>
+    <div id="wish" class="row row-cols-1 row-cols-md-2">
+        <form>
+            <div id="wish_update">
+                <p id="wish-title">
+                    wish 제목
+                    <input type="text" id="wish-title-input" class="mb-3" name="wish title">
+                </p>
+                
+                <input type="text" id="wish-tag" placeholder="태그">
+                <div id="wish-images">
+                    사진
+                </div>
+                <p id="wish-name">
+                    wish 상품명
+                    <input type="text" id="wish-name-input" class="col" name="wish 상품명">
+                </p>
+                <p id="wish-content">
+                    wish 내용
+                    <input type="text" id="wish-content-input" class="col" name="wish 내용">
+                </p>
+                
+                
+                <button type="button" id="wishUpdate" onclick="handleUpdate()">수정하기</button>         
+            </div>
+        </form>
+    </div>
+    <!-- <h5 id="wish-author">위시 작성자</h5> -->
+
+    
+</body>
+</html>

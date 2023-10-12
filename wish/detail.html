@@ -14,38 +14,40 @@
         <div id="wish-image" class="wish_images">wish 사진</div>
         <p id="wish-name" class="col">wish 상품명</p>
         <p id="wish-content" class="col">wish 내용</p>
+        <div id="wish_author_only">
+
+        </div>
     </div>
     <div id="wish_detail">
         <div id="wish_info">
-            <span id="like">
-                <button type="button" onclick="submitLike()">좋아요</button>                
-            </span>
-            <span id="likes">
-                좋아요 수, 누르면 좋아요한 사람들 목록 보여주기
-            </span>
-            <span id="bookmark">
-                <button type="button" onclick="submitBookmark()">북마크</button>                
-            </span>            
-            <span id="bookmarks">
-                북마크 수, 누르면 좋아요한 사람들 목록 보여주기
-            </span>
+            <div id="wish_created"></div>
+            <div id="wish_updated"></div>
+            
+            <div id="like_bookmark">
+                <span id="like">
+                    <button type="button" onclick="submitLike()">좋아요</button>                
+                </span>
+                <span id="likes">
+                    좋아요 수, 누르면 좋아요한 사람들 목록 보여주기
+                </span>
+                <span id="bookmark">
+                    <button type="button" onclick="submitBookmark()">북마크</button>                
+                </span>            
+                <span id="bookmarks">
+                    북마크 수, 누르면 좋아요한 사람들 목록 보여주기
+                </span>
+            </div>
         </div>
-        <span>
-            <button type="button" onclick="handleUpdate()" id="wish_update">수정하기</button>
-        </span>
-        <span>
-            <button type="button" onclick="handleDelete()" id="btn_comment">삭제하기</button>
-        </span> 
+        
     </div>
 
     
-    <div class="comment">
+    <div class="comments">
         
         
         <form>
             <div class="comment-form" id="comment-form">
-            <!-- <label>댓글 등록</label>  -->
-            <!-- No label associated with a form field- A <label> isn't associated with a form field. To fix this issue, nest the <input> in the <label> or provide a for attribute on the <label> that matches a form field id. -->
+            
             <input type="text" id="new-comment" placeholder="댓글을 입력하세요">
             <button type="button" onclick="submitComment()" id="btn_comment">댓글 작성</button>
             </div>
@@ -55,13 +57,6 @@
         <div id="comment_list">
 
         </div>
-        <!-- <div id="comment-list">
-            <ul class="row row-cols-1 row-cols-md-2 mb-3" id="comment">
-                <li id="comment-author" class="col">comment author</div>
-                <li id="comment-content" class="col">comment content</div>
-                <li id="comment-created" class="col">comment-created</div>
-            </ul>
-        </div> -->
         
         
     </div>
