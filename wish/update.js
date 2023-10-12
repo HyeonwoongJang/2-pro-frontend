@@ -32,6 +32,19 @@ async function loadWish(){
 
     // const wishAuthor = document.getElementById("wish-author")
     const wishTitle = document.getElementById("wish-title-input")
+    const wishTags = document.getElementById("wish-tags")
+
+    if (response_json.tags) {
+        
+        for (let i = 0; i < response_json.tags.length; i++) {
+
+            const wishTag = response_json.tags[i].name
+            wishTag.setAttribute("id",`wishTag${i}`)
+            wishTag.setAttribute("class","border border-2 border-dark")
+            wishTags.value += `${response_json.tags[i].name} `     
+        }
+    } else {}
+
     const wishName = document.getElementById("wish-name-input")
     const wishContent = document.getElementById("wish-content-input")
     const wish_images = document.getElementById("wish-images")

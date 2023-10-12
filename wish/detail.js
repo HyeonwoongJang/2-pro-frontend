@@ -40,7 +40,7 @@ async function loadWish(){
             wishTag.setAttribute("class","border border-2 border-dark")
             wishTag.innerText = response_json.tags[i].name
             
-            wishTag.style.borderStyle ="solid"
+            // wishTag.style.borderStyle ="solid"
             // wishTag.style.setAttribute("class", "badge bg-light text-dark")
             
             wishTags.appendChild(wishTag)        
@@ -202,16 +202,19 @@ async function loadWishInfo(){
     const wish_info_div = document.getElementById('wish_info')
     const wish_like_bookmark =document.getElementById('like_bookmark')
 
-    const wish_created_div =document.getElementById('wish_created')
-    const wish_updated_div = document.getElementById('wish_updated')
+    const wish_created = document.createElement('time')
+
+    const wish_created_span =document.getElementById('wish_created')
+    const wish_updated_span = document.getElementById('wish_updated')
     const wish_likes_span = document.getElementById('likes')
     const wish_bookmarks_span = document.getElementById('bookmarks')
 
-    wish_created_div.innerText = "작성시간: " + wish.created_at
-    wish_updated_div.innerText = "수정시간: " + wish.updated_at
+    wish_created =  wish.created_at
+    wish_created_span.innerHTML = '작성시간: + <time datetime="YYYY-MM-DDThh">'
+    wish_updated_span.innerText = "수정시간: " + wish.updated_at
 
-    wish_info_div.appendChild(wish_created_div)
-    wish_info_div.appendChild(wish_updated_div)
+    wish_info_div.appendChild(wish_created_span)
+    wish_info_div.appendChild(wish_updated_span)
     wish_likes_span.innerText = wish.likes_count + " likes "
     // wish_likes_span.onclick = wish.likes // 위시를 like한 유저들 리스트 (미완성)
     wish_bookmarks_span.innerText = wish.bookmarks_count + " bookmarks"
