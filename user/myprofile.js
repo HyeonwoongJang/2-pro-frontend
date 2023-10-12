@@ -20,6 +20,7 @@ async function request() {
 
     document.getElementById("my_profile_img").src = `http://127.0.0.1:8000${data.profile_img}/`;
     // payload_parse.profile_img 로 하면, 로그인 당시의 이미지로 되고 중간에 수정된 이미지가 반영이 안 됨.
+    document.getElementById("nav_profile_img").src = `http://127.0.0.1:8000${data.profile_img}/`;
 
     document.getElementById("my_email").innerText = data.email;
     document.getElementById("update_username").value = data.username;

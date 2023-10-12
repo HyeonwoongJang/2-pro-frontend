@@ -26,7 +26,7 @@ async function loadWish(){
     const wishContent = document.getElementById("wish-content")
 
     wishAuthor.innerText = response_json.author
-    wishAuthor.href = `${frontend_base_url}/user/feed.html?author=` + response_json.author
+    wishAuthor.href = `/user/mypage.html?author=` + response_json.author
     wishTitle.innerText = response_json.title
     wishName.innerText = response_json.wish_name
     wishContent.innerText = response_json.content
@@ -63,7 +63,7 @@ async function loadWish(){
             
 
             wish_update_btn.innerText = "수정하기"
-            wish_update_btn.setAttribute("onclick", `location.href="${frontend_base_url}/wish/update.html?wish_id=${wish_id}"`)
+            wish_update_btn.setAttribute("onclick", `location.href="/wish/update.html?wish_id=${wish_id}"`)
             
             wish_delete_btn.innerText = "삭제하기"
             wish_delete_btn.setAttribute("onclick", `handleDelete(${wish_id})`)
@@ -158,7 +158,7 @@ async function handleDelete(wish_id) {
                 method : 'DELETE',
             })
             console.log(response.status);
-            window.location.href = `${frontend_base_url}/wish/main.html`;
+            window.location.href = `/wish/main.html`;
 
         } else {
             console.log(response.status)

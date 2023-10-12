@@ -10,8 +10,13 @@ function wishIdSearch() {
     return wish_id
 }
 
-function wishImgDel(wish_img) {
+deleted_image_ids = []
+
+function wishImgDel(wish_img, deleted_image_id) {
     console.log(wish_img)   // <div id="wishImage0"> (이미지와 이미지 삭제 버튼) </div>
+    console.log(deleted_image_id)
+    deleted_image_ids.push(deleted_image_id)
+    console.log("리스트:", deleted_image_ids)
     alert(`${wish_img.id}를 삭제합니다.`)
     return wish_img.innerHTML =""   // <div id="wishImage0"></div>
 
@@ -36,6 +41,7 @@ async function loadWish(){
     // image read와 image delete버튼을 담고 있는 div 만드는 반복문
     if (response_json.images && response_json.images.length > 0) {
         let imageHtml = '';
+        console.log(response_json.images)
         for (let i = 0; i < response_json.images.length; i++) {
         const wishImage = document.createElement("div")
         wishImage.id = `wishImage${[i]}`    // image와 image 삭제 버튼을 담고 있는 div의 아이디 부여
@@ -53,7 +59,7 @@ async function loadWish(){
         const wish_img_del = document.createElement("button")
         wish_img_del.innerText = "이미지 삭제"
         wish_img_del.setAttribute("type", "button")        
-        wish_img_del.setAttribute("onclick", `wishImgDel(wishImage${[i]})`)
+        wish_img_del.setAttribute("onclick", `wishImgDel(wishImage${[i]}, ${response_json.images[i].id})`)
         
         wishImage.appendChild(wish_img_del)
         wishImages.appendChild(wishImage)
@@ -72,11 +78,11 @@ async function loadWish(){
     wish_images.appendChild(wishNewImages)
 
     //새로 추가할 이미지 인풋(multiple)
-    if (response_json.images && response_json.images.length > 0) {
-        let imageHtml = '';
-        for (let i = 0; i < response_json.images.length; i++) {
-        }
-    }
+    // if (response_json.images && response_json.images.length > 0) {
+    //     let imageHtml = '';
+    //     for (let i = 0; i < response_json.images.length; i++) {
+    //     }
+    // }
 
     wishTitle.value = response_json.title
     wishName.value = response_json.wish_name
@@ -90,6 +96,15 @@ async function loadWish(){
 async function handleUpdate() {
 
     const wish_id=wishIdSearch()
+
+    var response = await fetch(`${(backend_base_url)}/wishes/${wish_id}/`, {
+        method: 'GET',
+        headers: {
+            "Authorization" : "Bearer " + localStorage.getItem("access")
+        },
+    });
+    const data = await response.json();
+    console.log(data['images'])
     
     
     // local storage의 payload에서의 user_id 가져와 formData에 넣어준다.
@@ -106,7 +121,7 @@ async function handleUpdate() {
     // const wishImages = document.getElementById("").files
     
     
-    const wishNewImages = document.getElementById("wish-images-input")
+    const wishNewImages = document.getElementById("wish-images-input").files
     console.log(wishNewImages)
     
 
@@ -118,14 +133,22 @@ async function handleUpdate() {
     formData.append("title", wishTitle);
     formData.append("wish_name", wishName);
     formData.append("content", wishContent);
-    formData.append("images", wishImages);
-    formData.append("images", wishNewImages);
+    // formData.append("images", wishImages);
+    formData.append("deleted_image_ids", deleted_image_ids)
+    if (wishNewImages.length > 0) {
+        for (var i = 0; i < wishNewImages.length; i++) {
+            formData.append("image", wishNewImages[i]);
+            console.log(wishNewImages[i])
+        }
+    }
+    
+    // formData.append("image", '/media/wish/wish_img/1/IMG_4155_YlxPtOE.jpeg')
 
 
 
     // fetch api로 put 요청
     const access_token = localStorage.getItem("access")
-    const response = await fetch(`${(backend_base_url)}/wishes/${wish_id}/`, {
+    var response = await fetch(`${(backend_base_url)}/wishes/${wish_id}/`, {
 
         headers : {
             "Authorization": `Bearer ${access_token}`,
@@ -135,8 +158,9 @@ async function handleUpdate() {
     })
     // alert(response.status)
     console.log(response.status)
-    window.location.href = `${frontend_base_url}/wish/detail.html?wish_id=${wish_id}`;
+    window.location.href = `/wish/detail.html?wish_id=${wish_id}`;
 }
+
 
 window.onload = () =>{
     loadWish()

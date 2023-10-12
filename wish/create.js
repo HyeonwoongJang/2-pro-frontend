@@ -15,6 +15,7 @@ async function handleWishCreate() {
     formData.append("title", document.getElementById("wish_create_title").value);
     formData.append("wish_name", document.getElementById("wish_create_wish_name").value);
     formData.append("content", document.getElementById("wish_create_content").value);
+    formData.append("tags", "tag")
 
     if (document.getElementById("wish_create_images").files) {
         for (var i = 0; i < document.getElementById("wish_create_images").files.length; i++) {
