@@ -18,10 +18,17 @@ window.onload = () => {
         user_profile_img.classList.add("profile_img")
 
         // 로그인한 유저에게는 로그아웃 버튼과 프로필사진이 보이고, 회원가입 버튼과 로그인 버튼이 안보이게 설정
+
         document.getElementById("user_info").style.display = ""
         document.getElementById("btn_logout").style.display = ""
+        document.getElementById("wish_create_page").style.display = ""
+        document.getElementById("following_feed_option").style.display = "none"
+        document.getElementById("wish_feed").style.display = ""
+        document.getElementById("following_feed").style.display = ""
         document.getElementById("btn_sign_up_page").style.display = "none"
         document.getElementById("btn_login_page").style.display = "none"
+        document.getElementById("btn_myprofile_page").style.display = ""
+
     }
 
     async function loadProfileInfo(user_id) {
@@ -49,7 +56,7 @@ window.onload = () => {
 
     loadMainpage()
 
-    async function loadMainpage() {
+    async function loadMainPage() {
         const response = await fetch('http://127.0.0.1:8000/wishes/', {
             method : 'GET'
         })
@@ -73,8 +80,10 @@ function handleLogout() {
     
     document.getElementById("user_info").style.display = 'none'
     document.getElementById("btn_logout").style.display = 'none'
+    document.getElementById("wish_create_page").style.display = "none"
     document.getElementById("btn_sign_up_page").style.display = ""
     document.getElementById("btn_login_page").style.display = ""
+    document.getElementById("btn_myprofile_page").style.display = "none"
 }
 
 async function sort() {
@@ -142,6 +151,12 @@ async function search() {
                 rander_wish(wish)
             } 
         })
+    // } else if (category_option == 'tag') {
+    //     response_json.forEach(wish => {
+    //         if (wish.tags.includes(search_box)) {
+    //             rander_wish(wish)
+    //         } 
+    //     })
     } else {
         response_json.forEach(wish => {
             rander_wish(wish)
@@ -170,7 +185,7 @@ function rander_wish(wish) {
     wish_author_a.innerText = wish.author
 
     // 위시 작성자(a 태그)의 href 속성 값을 설정 (해당 유저 피드 페이지 url 주소)
-    wish_author_a.href = "/user/feed.html?author=" + wish.author
+    wish_author_a.href = "/user/mypage.html?author=" + wish.author
 
     // 해당 위시의 href 속성 값을 설정 (해당 위시의 상세 페이지 url 주소)
     wish_url_a.href = "/wish/detail.html?wish_id=" + wish.id
@@ -178,16 +193,12 @@ function rander_wish(wish) {
     // 해당 p 태그의 내용을 위시의 제목으로 설정
     wish_title_p.innerText = wish.title
 
-    //////// 위시 이미지가 있으면 첫 번째 이미지를 썸네일로 지정 ////////
-    //////// 위시 이미지가 없을 경우 디폴트 이미지 url을 정의 ////////
+    //////// 위시 첫 번째 이미지를 썸네일로 지정 ////////
     if (wish.images.length > 0) {
-        thumbnail = wish.images[0].image
-        //console.log(thumbnail)
+        wish_thumbnail_img.src = "http://127.0.0.1:8000" + wish.images[0].image
+    } else {
+        wish_thumbnail_img.src = "http://127.0.0.1:8000/media/images/DefaultThumbnail.png"
     }
-
-    // 위시 썸네일(image 태그)의 src 속성 값을 설정 (해당 위시에 등록한 첫 번째 이미지 주소)
-    wish_thumbnail_img.src = "http://127.0.0.1:8000" + thumbnail
-
     //위시의 좋아요 수와 북마크 수를 표시
     wish_like_span.innerText = wish.likes_count + " likes "
     wish_bookmark_span.innerText = wish.bookmarks_count + " bookmarks"
@@ -231,4 +242,113 @@ function rander_wish(wish) {
     //         <div>
     //     </div>
     // </div>
+}
+
+async function following_feed() {
+
+    const payload = localStorage.getItem("payload")
+    const payload_parse = JSON.parse(payload) 
+
+    const response = await fetch(`http://127.0.0.1:8000/users/${payload_parse.username}/feed/`, {
+        method : 'GET'
+    })
+
+    const response_json = await response.json()
+    console.log(response_json)
+    const following_wishes = response_json.following_wishes
+    console.log(following_wishes)
+
+    const wish_list = document.getElementById('id_wish_list')
+    wish_list.innerHTML = ''
+
+    following_wishes.forEach(wish => {
+        rander_wish(wish)
+    })
+
+    document.getElementById("following_feed_option").style.display = ""
+    document.getElementById("wish_feed_option").style.display = "none"
+}
+
+async function following_sort() {
+    const sort_option = document.getElementById('f-sort_option').value;
+
+    const payload = localStorage.getItem("payload")
+    const payload_parse = JSON.parse(payload) 
+
+    const response = await fetch(`http://127.0.0.1:8000/users/${payload_parse.username}/feed/`, {
+        method : 'GET'
+    })
+
+    const response_json = await response.json()
+    console.log(response_json)
+    const following_wishes = response_json.following_wishes
+    console.log(following_wishes)
+
+
+    if (sort_option == 'f-latest') {
+        following_wishes.sort((a, b) => {return new Date(b.created_at) - new Date(a.created_at)})
+    } else if (sort_option == 'f-most_likes') {
+        following_wishes.sort((a, b) => {return b.likes_count - a.likes_count})
+    } else if (sort_option == 'f-most_bookmarks') {
+        following_wishes.sort((a, b) => {return b.bookmarks_count - a.bookmarks_count})
     }
+
+    const wish_list = document.getElementById('id_wish_list')
+    wish_list.innerHTML = ''
+
+    following_wishes.forEach(wish => {
+        rander_wish(wish)
+    });
+}
+
+async function following_search() {
+
+    const category_option = document.getElementById('f-category_option').value;
+    const search_box = document.getElementById('f-search_box').value;
+
+    const payload = localStorage.getItem("payload")
+    const payload_parse = JSON.parse(payload) 
+
+    const response = await fetch(`http://127.0.0.1:8000/users/${payload_parse.username}/feed/`, {
+        method : 'GET'
+    })
+
+    const response_json = await response.json()
+    //console.log(response_json)
+
+    const following_wishes = response_json.following_wishes
+    console.log(following_wishes)
+
+    const wish_list = document.getElementById('id_wish_list')
+    wish_list.innerHTML = ''
+
+    if (category_option == 'f-title') {
+        following_wishes.forEach(wish => {
+            if (wish.title.includes(search_box)) {
+                rander_wish(wish)
+            }
+        })
+    } else if (category_option == 'f-content') {
+        following_wishes.forEach(wish => {
+            if (wish.content.includes(search_box)) {
+                rander_wish(wish)
+            }
+        })
+    } else if (category_option == 'f-author') {
+        following_wishes.forEach(wish => {
+            if (wish.author.includes(search_box)) {
+                rander_wish(wish)
+            } 
+        })
+    // } else if (category_option == 'tag') {
+    //     following_wishes.forEach(wish => {
+    //         if (wish.tags.includes(search_box)) {
+    //             rander_wish(wish)
+    //         } 
+    //     })
+    } else {
+        following_wishes.forEach(wish => {
+            rander_wish(wish)
+        })
+    }
+}
