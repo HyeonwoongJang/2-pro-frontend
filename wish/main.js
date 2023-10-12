@@ -41,9 +41,6 @@ window.onload = () => {
         const data = await response.json();
         console.log(data)
 
-        const user_feed_page = document.getElementById("user_feed_page")
-        user_feed_page.href = "/user/feed.html?author=" + data.username
-
         const user_username = document.getElementById("user_username")
         user_username.innerText = data.username 
 
@@ -54,7 +51,7 @@ window.onload = () => {
 
     }
 
-    loadMainpage()
+    loadMainPage()
 
     async function loadMainPage() {
         const response = await fetch('http://127.0.0.1:8000/wishes/', {

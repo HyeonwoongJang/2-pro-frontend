@@ -79,7 +79,7 @@ async function loadWish(){
             
 
             wish_update_btn.innerText = "수정하기"
-            wish_update_btn.setAttribute("onclick", `location.href="${frontend_base_url}/wish/update.html?wish_id=${wish_id}"`)
+            wish_update_btn.setAttribute("onclick", `location.href="/wish/update.html?wish_id=${wish_id}"`)
             
             wish_delete_btn.innerText = "삭제하기"
             wish_delete_btn.setAttribute("onclick", `handleDelete(${wish_id})`)
@@ -174,7 +174,7 @@ async function handleDelete(wish_id) {
                 method : 'DELETE',
             })
             console.log(response.status);
-            window.location.href = `${frontend_base_url}/wish/main.html`;
+            window.location.href = `/wish/main.html`;
 
         } else {
             console.log(response.status)
