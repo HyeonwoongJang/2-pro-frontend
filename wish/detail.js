@@ -34,7 +34,7 @@ async function loadWish(){
     const wishContent = document.getElementById("wish-content")
 
     wishAuthor.innerText = response_json.author
-    wishAuthor.href = "http://127.0.0.1:5500/user/feed.html?author=" + response_json.author
+    wishAuthor.href = "/user/feed.html?author=" + response_json.author
     wishTitle.innerText = response_json.title
     wishName.innerText = response_json.wish_name
     wishContent.innerText = response_json.content
@@ -274,7 +274,7 @@ async function loadComments() {
             const comment_created_span = document.createElement('span')
         
             comment_author_a.innerText = comments[i].author
-            comment_author_a.href = "http://127.0.0.1:5500/user/feed.html?author=" + comments[i].author
+            comment_author_a.href = "/user/feed.html?author=" + comments[i].author
             comment_content_span.innerText = comments[i].content
             comment_created_span.innerText = comments[i].created_at
 
