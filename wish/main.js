@@ -4,23 +4,12 @@ window.onload = () => {
     if (localStorage.getItem("access")) {
 
         const payload = localStorage.getItem("payload")
-        //console.log(payload)
     
-        const payload_parse = JSON.parse(payload)                               // 문자열 형식의 JSON 데이터(payload)를 분해해서 Javascript 객체로 조립(변환)
-        //console.log(payload_parse)
+        const payload_parse = JSON.parse(payload)
+ 
+        const request_user_id = payload_parse.user_id
 
-        const user_feed_page = document.getElementById("user_feed_page")
-        user_feed_page.href = "/user/feed.html?author=" + payload_parse.username
-
-        const user_username = document.getElementById("user_username")
-        //console.log(payload_parse.username)
-        user_username.innerText = payload_parse.username
-
-        const user_profile_img = document.getElementById("user_profile_img")
-        //console.log(payload_parse.profile_img)
-        if (payload_parse.profile_img) {
-            user_profile_img.src = "http://127.0.0.1:8000" + payload_parse.profile_img
-        } 
+        loadProfileInfo(request_user_id)
 
         const wish_create_page = document.getElementById("wish_create_page")
         wish_create_page.href = "/wish/create.html"
@@ -35,6 +24,29 @@ window.onload = () => {
         document.getElementById("btn_login_page").style.display = "none"
     }
 
+    async function loadProfileInfo(user_id) {
+        const response = await fetch(`http://127.0.0.1:8000/users/profile/${user_id}/`, {
+            method: 'GET',
+            headers: {
+                "Authorization" : "Bearer " + localStorage.getItem("access")
+            },
+        });
+        const data = await response.json();
+        console.log(data)
+
+        const user_feed_page = document.getElementById("user_feed_page")
+        user_feed_page.href = "/user/feed.html?author=" + data.username
+
+        const user_username = document.getElementById("user_username")
+        user_username.innerText = data.username 
+
+        const user_profile_img = document.getElementById("user_profile_img")
+        if (data.profile_img) {
+            user_profile_img.src = "http://127.0.0.1:8000" + data.profile_img
+        } 
+
+    }
+
     loadMainpage()
 
     async function loadMainpage() {
@@ -42,8 +54,8 @@ window.onload = () => {
             method : 'GET'
         })
         const response_json = await response.json()                             // response.json() 메서드 : Response 객체(HTTP 응답 상태 코드, 헤더, 본문 등의 정보가 포함)를 JSON 형식으로 조립(변환/파싱)해서 JavaScript 객체로 반환
-        //console.log(response)
-        //console.log(response_json)
+        console.log(response)
+        console.log(response_json)
 
         const wish_list = document.getElementById('id_wish_list')
 
