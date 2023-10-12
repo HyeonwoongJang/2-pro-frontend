@@ -1,14 +1,7 @@
 const frontend_base_url = "http://127.0.0.1:5500"
 const backend_base_url = "http://127.0.0.1:8000"
 
-function test2() {
-    document.getElementById("mydiv").style.top="100px";
-    document.getElementById("mydiv").style.left="150px";
-    document.getElementById("mydiv").style.width="400px";
-    document.getElementById("mydiv").style.height="300px";
-    document.getElementById("mydiv").style.backgroundColor="green";
-    document.getElementById("mydiv").style.position="absolute";
-}
+
 
 // 위시 아이디 값 찾는 함수
 function wishIdSearch() {
@@ -34,7 +27,7 @@ async function loadWish(){
     const wishContent = document.getElementById("wish-content")
 
     wishAuthor.innerText = response_json.author
-    wishAuthor.href = `${frontend_base_url}/user/feed.html?author=` + response_json.author
+    wishAuthor.href = `${frontend_base_url}/user/mypage.html?author=` + response_json.author
     // tag들 불러오기
     if (response_json.tags.length > 0) {
         
@@ -306,7 +299,7 @@ async function loadComments() {
             const comment_created_span = document.createElement('span')
 
             comment_author_a.innerText = comments[i].author
-            comment_author_a.href = "/user/feed.html?author=" + comments[i].author
+            comment_author_a.href = "/user/mypage.html?author=" + comments[i].author
             comment_content_span.innerText = comments[i].content
             comment_created_span.innerText = comments[i].created_at
 

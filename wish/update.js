@@ -143,7 +143,7 @@ async function handleUpdate() {
     })
     // alert(response.status)
     console.log(response.status)
-    window.location.href = `${frontend_base_url}/wish/detail.html?wish_id=${wish_id}`;
+    // window.location.href = `${frontend_base_url}/wish/detail.html?wish_id=${wish_id}`;
 }
 
 window.onload = () =>{
