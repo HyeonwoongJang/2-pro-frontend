@@ -65,15 +65,18 @@ async function handleUpdatePassword() {
 
     if (response.status == 200) {
         document.getElementById("pw_update_errors").innerText = "비밀번호 수정됨.";
+        document.getElementById("pw_update_errors").style.color = "blue";
     } 
     else if (response.status == 403) {
         const errorData = await response.json();
         document.getElementById("pw_update_errors").innerText = errorData.message;
+        document.getElementById("pw_update_errors").style.color = "red";
     }
     else {
         const errorData = await response.json();
         document.getElementById("pw_update_errors").innerText = errorData.password[0];
-        console.log(errorData)
+        document.getElementById("pw_update_errors").style.color = "red";
+        // console.log(errorData)
     }
 
 }
@@ -108,5 +111,19 @@ async function handleUpdateProfile() {
         document.getElementById("profile_update_errors").innerText = errorData.message;
     } else {
         document.getElementById("profile_update_errors").innerText = "회원정보 수정 실패.";
+    }
+}
+
+function hadleProfilePreview(input) {
+    console.log(input.files)
+    if (input.files && input.files.length > 0) {
+        var previewContainer = document.getElementById('update_profile_img');
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById("my_profile_img").src = e.target.result;
+            // console.log(e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
     }
 }
