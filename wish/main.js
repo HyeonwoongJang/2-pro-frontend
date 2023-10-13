@@ -1,38 +1,36 @@
+let currentPage = 1;
+let sortedPage = 1;
+let searchedPage = 1;
+let followingfeedPage = 1;
+
 window.onload = () => {
     console.log('메인 페이지 연결 완료')
 
     if (localStorage.getItem("access")) {
-
-        const payload = localStorage.getItem("payload")
-    
-        const payload_parse = JSON.parse(payload)
- 
-        const request_user_id = payload_parse.user_id
-
-        loadProfileInfo(request_user_id)
-
-        const wish_create_page = document.getElementById("wish_create_page")
-        wish_create_page.href = "/wish/create.html"
-
-        // 로그인 한 유저의 프로필 이미지(image 태그)의 class 값을 설정 -> css 파일에 style 정의
-        user_profile_img.classList.add("profile_img")
-
-        // 로그인한 유저에게는 로그아웃 버튼과 프로필사진이 보이고, 회원가입 버튼과 로그인 버튼이 안보이게 설정
-
-        document.getElementById("user_info").style.display = ""
-        document.getElementById("btn_logout").style.display = ""
-        document.getElementById("wish_create_page").style.display = ""
-        document.getElementById("following_feed_option").style.display = "none"
+        document.getElementById("nav_wish_create_page").style.display = ""
+        document.getElementById("nav_logout").style.display = ""
+        document.getElementById("nav_my_page").style.display = ""
+        document.getElementById("nav_user_username").style.display = ""
+        document.getElementById("nav_profile_img").style.display = ""
         document.getElementById("wish_feed").style.display = ""
         document.getElementById("following_feed").style.display = ""
-        document.getElementById("btn_sign_up_page").style.display = "none"
-        document.getElementById("btn_login_page").style.display = "none"
-        document.getElementById("btn_myprofile_page").style.display = ""
 
+        
+        
+        
+        document.getElementById("nav_sign_up_page").style.display = "none"
+        document.getElementById("nav_login_page").style.display = "none"
+
+        request();
     }
 
-    async function loadProfileInfo(user_id) {
-        const response = await fetch(`http://127.0.0.1:8000/users/profile/${user_id}/`, {
+    async function request() {
+        const payload = localStorage.getItem("payload")
+        const payload_parse = JSON.parse(payload) 
+        console.log(payload_parse.profile_img)
+        const request_user_id = payload_parse.user_id
+    
+        const response = await fetch(`http://127.0.0.1:8000/users/profile/${request_user_id}/`, {
             method: 'GET',
             headers: {
                 "Authorization" : "Bearer " + localStorage.getItem("access")
@@ -41,70 +39,156 @@ window.onload = () => {
         const data = await response.json();
         console.log(data)
 
-        const user_username = document.getElementById("user_username")
-        user_username.innerText = data.username 
-
-        const user_profile_img = document.getElementById("user_profile_img")
-        if (data.profile_img) {
-            user_profile_img.src = "http://127.0.0.1:8000" + data.profile_img
-        } 
-
+        // payload_parse.profile_img 로 하면, 로그인 당시의 이미지로 되고 중간에 수정된 이미지가 반영이 안 됨.
+        document.getElementById("nav_profile_img").src = `http://127.0.0.1:8000${data.profile_img}/`;
+        document.getElementById('nav_user_username').innerText = data.username
+        document.getElementById('nav_my_page').href = `/user/mypage.html?author=${data.username}`
     }
 
-    loadMainPage()
+    loadMainPage(currentPage)
+}
 
-    async function loadMainPage() {
-        const response = await fetch('http://127.0.0.1:8000/wishes/', {
-            method : 'GET'
-        })
-        const response_json = await response.json()                             // response.json() 메서드 : Response 객체(HTTP 응답 상태 코드, 헤더, 본문 등의 정보가 포함)를 JSON 형식으로 조립(변환/파싱)해서 JavaScript 객체로 반환
-        console.log(response)
-        console.log(response_json)
+function btn_next_page() {
+    currentPage++;
+    loadMainPage(currentPage);
+}
 
-        const wish_list = document.getElementById('id_wish_list')
-
-        response_json.forEach(wish => {
-            rander_wish(wish)
-        })
+function btn_previous_page() {
+    if (currentPage > 1) {
+        currentPage--;
+        loadMainPage(currentPage);
     }
 }
+
+
+async function loadMainPage(page) {
+
+
+    const response = await fetch(`http://127.0.0.1:8000/wishes/?page=${page}`, {
+        method: 'GET'
+    })
+    const response_json = await response.json()
+    //console.log(response)
+    //console.log(response_json)
+
+    document.getElementById("following_feed_option").style.display = "none"
+    document.getElementById("wish_feed_option").style.display = ""
+
+    // 리스트
+    const wish_list = document.getElementById('id_wish_list')
+    wish_list.innerHTML = ""
+
+
+    const wishes = response_json.results;
+    console.log(wishes)
+    wishes.forEach(wish => {
+        rander_wish(wish)
+    })
+
+    // 페이지네이션
+    document.getElementById('pagination').style.display = ""
+    document.getElementById('sorted_pagination').style.display = "none"
+    document.getElementById('searched_pagination').style.display = "none"
+
+    const next_page = document.getElementById('next_page')
+    const previous_page = document.getElementById('pre_page')
+
+    //console.log(response_json.next)
+    if (response_json.next && response_json.previous) {
+
+        next_page.style.display= ""
+        previous_page.style.display= ""
+        next_page.onclick = function () {
+            loadMainPage(page + 1);
+        } 
+        previous_page.onclick = function () {
+            loadMainPage(page - 1);
+        }
+    } else if (response_json.next && !response_json.previous) {
+            next_page.style.display= ""
+            previous_page.style.display= "none"
+            next_page.onclick = function () {
+                loadMainPage(page + 1);
+            }
+    } else if (!response_json.next && response_json.previous) {
+            next_page.style.display= "none"
+            previous_page.style.display= ""
+            previous_page.onclick = function () {
+                loadMainPage(page - 1);
+            }
+    } else {
+        next_page.style.display= "none"
+        previous_page.style.display= "none"
+    }
+
+    const sort = document.getElementById('sort')
+
+    sort.onclick = function () {
+        sortMain(page)
+    }
+
+    const search = document.getElementById('search')
+
+    search.onclick = function () {
+        searchMain(page)
+    }
+}
+
+function sorted_btn_next_page() {
+    sortedPage++;
+    sortMain(sortedPage);
+}
+
+function sorted_btn_previous_page() {
+    if (sortedPage > 1) {
+        sortedPage--;
+        sortMain(sortedPage);
+    }
+}
+
 
 function handleLogout() {
     localStorage.removeItem('access')
     localStorage.removeItem('refresh')
     localStorage.removeItem('payload')
 
-    
-    document.getElementById("user_info").style.display = 'none'
-    document.getElementById("btn_logout").style.display = 'none'
-    document.getElementById("wish_create_page").style.display = "none"
-    document.getElementById("btn_sign_up_page").style.display = ""
-    document.getElementById("btn_login_page").style.display = ""
-    document.getElementById("btn_myprofile_page").style.display = "none"
+    document.getElementById("nav_wish_create_page").style.display = 'none'
+    document.getElementById("nav_logout").style.display = 'none'
+    document.getElementById("nav_my_page").style.display = 'none'
+    document.getElementById("nav_user_username").style.display = 'none'
+    document.getElementById("nav_profile_img").style.display = 'none'
+
+    document.getElementById("nav_sign_up_page").style.display = ""
+    document.getElementById("nav_login_page").style.display = ""
+
 }
 
-async function sort() {
+
+async function sortMain(page) {
+
     const sort_option = document.getElementById('sort_option').value;
 
     // loadMainpage 함수와 같은 방식으로 Fetch 데이터 로드 
-    const response = await fetch('http://127.0.0.1:8000/wishes/', {
+    const response = await fetch(`http://127.0.0.1:8000/wishes/?page=${page}`, {
         method: 'GET'
     })
     const response_json = await response.json()
+    const sorted_wishes = response_json.results
 
+    console.log(response_json)
     // 정렬 옵션에 따라 배열을 정렬
     if (sort_option == 'latest') {
         // 날짜 비교 함수를 사용하여 최신순으로 정렬 (sort 메서드)
         // 반환 값이 양수인 경우: b가 a보다 뒤에 위치하도록 정렬
         // 반환 값이 음수인 경우: a가 b보다 뒤에 위치하도록 정렬
         // 반환 값이 0인 경우: 순서 변화 없음
-        response_json.sort((a, b) => {return new Date(b.created_at) - new Date(a.created_at)})      // 'Date' :  JavaScript의 내장 객체 / 객체의 created_at 속성을 'Date'객체로 변환
+        sorted_wishes.sort((a, b) => {return new Date(b.created_at) - new Date(a.created_at)})      // 'Date' :  JavaScript의 내장 객체 / 객체의 created_at 속성을 'Date'객체로 변환
     } else if (sort_option == 'most_likes') {
         // 좋아요 수를 기준으로 내림차순으로 정렬
-        response_json.sort((a, b) => {return b.likes_count - a.likes_count})
+        sorted_wishes.sort((a, b) => {return b.likes_count - a.likes_count})
     } else if (sort_option == 'most_bookmarks') {
         // 북마크 수를 기준으로 내림차순으로 정렬
-        response_json.sort((a, b) => {return b.bookmarks_count - a.bookmarks_count})
+        sorted_wishes.sort((a, b) => {return b.bookmarks_count - a.bookmarks_count})
     }
 
     // 재정렬을 위해 위시 목록을 초기화
@@ -112,53 +196,136 @@ async function sort() {
     wish_list.innerHTML = ''
 
     // 재정렬된 위시 목록을 다시 렌더링
-    response_json.forEach(wish => {
+    sorted_wishes.forEach(wish => {
         rander_wish(wish)
-    });
+    })
+
+        // 페이지네이션
+        document.getElementById('pagination').style.display = "none"
+        document.getElementById('sorted_pagination').style.display = ""
+        document.getElementById('searched_pagination').style.display = "none"
+
+        const sorted_next_page = document.getElementById('sorted_next_page')
+        const sorted_previous_page = document.getElementById('sorted_pre_page')
+
+    if (response_json.next && response_json.previous) {
+
+        sorted_next_page.style.display= ""
+        sorted_previous_page.style.display= ""
+        sorted_next_page.onclick = function () {
+            sortMain(page + 1);
+        } 
+        sorted_previous_page.onclick = function () {
+            sortMain(page - 1);
+        }
+    } else if (response_json.next && !response_json.previous) {
+        sorted_next_page.style.display= ""
+        sorted_previous_page.style.display= "none"
+        sorted_next_page.onclick = function () {
+            sortMain(page + 1);
+        }
+    } else if (!response_json.next && response_json.previous) {
+        sorted_next_page.style.display= "none"
+        sorted_previous_page.style.display= ""
+        sorted_previous_page.onclick = function () {
+            sortMain(page - 1);
+        }
+    } else {
+        sorted_next_page.style.display= "none"
+        sorted_previous_page.style.display= "none"
+    }
 }
 
-async function search() {
+function searched_btn_next_page() {
+    searchedPage++;
+    searchMain(searchedPage);
+}
+
+function searched_btn_previous_page() {
+    if (searchedPage > 1) {
+        searchedPage--;
+        searchMain(searchedPage);
+    }
+}
+
+async function searchMain(page) {
     const category_option = document.getElementById('category_option').value;
     const search_box = document.getElementById('search_box').value;
 
-    const response = await fetch('http://127.0.0.1:8000/wishes/', {
+    const response = await fetch(`http://127.0.0.1:8000/wishes/?page=${page}`, {
         method: 'GET'
     })
     const response_json = await response.json()
-
+    const searched_wishes = response_json.results
+    console.log(searched_wishes)
     // 재정렬을 위해 위시 목록을 초기화
     const wish_list = document.getElementById('id_wish_list')
     wish_list.innerHTML = ''
 
     if (category_option == 'title') {
-        response_json.forEach(wish => {
+        searched_wishes.forEach(wish => {
             if (wish.title.includes(search_box)) {
                 rander_wish(wish)
             }
         })
     } else if (category_option == 'content') {
-        response_json.forEach(wish => {
+        searched_wishes.forEach(wish => {
             if (wish.content.includes(search_box)) {
                 rander_wish(wish)
             }
         })
     } else if (category_option == 'author') {
-        response_json.forEach(wish => {
+        searched_wishes.forEach(wish => {
             if (wish.author.includes(search_box)) {
                 rander_wish(wish)
             } 
         })
-    // } else if (category_option == 'tag') {
-    //     response_json.forEach(wish => {
-    //         if (wish.tags.includes(search_box)) {
-    //             rander_wish(wish)
-    //         } 
-    //     })
+    } else if (category_option == 'tag') {
+        searched_wishes.forEach(wish => {
+            if (wish.tags.includes(search_box)) {
+                rander_wish(wish)
+            } 
+        })
     } else {
-        response_json.forEach(wish => {
+        searched_wishes.forEach(wish => {
             rander_wish(wish)
         })
     }
+
+       // 페이지네이션
+       document.getElementById('pagination').style.display = "none"
+       document.getElementById('sorted_pagination').style.display = "none"
+       document.getElementById('searched_pagination').style.display = ""
+       
+       const searched_next_page = document.getElementById('searched_next_page')
+       const searched_previous_page = document.getElementById('searched_pre_page')
+
+   if (response_json.next && response_json.previous) {
+
+        searched_next_page.style.display= ""
+        searched_previous_page.style.display= ""
+        searched_next_page.onclick = function () {
+            searchMain(page + 1);
+       } 
+       searched_previous_page.onclick = function () {
+            searchMain(page - 1);
+       }
+   } else if (response_json.next && !response_json.previous) {
+        searched_next_page.style.display= ""
+        searched_previous_page.style.display= "none"
+        searched_next_page.onclick = function () {
+            searchMain(page + 1);
+           }
+   } else if (!response_json.next && response_json.previous) {
+        searched_next_page.style.display= "none"
+        searched_previous_page.style.display= ""
+        searched_previous_page.onclick = function () {
+            searchMain(page - 1);
+           }
+   } else {
+        searched_next_page.style.display= "none"
+        searched_previous_page.style.display= "none"
+   }
 }
 
 function rander_wish(wish) {
@@ -337,12 +504,12 @@ async function following_search() {
                 rander_wish(wish)
             } 
         })
-    // } else if (category_option == 'tag') {
-    //     following_wishes.forEach(wish => {
-    //         if (wish.tags.includes(search_box)) {
-    //             rander_wish(wish)
-    //         } 
-    //     })
+    } else if (category_option == 'tag') {
+        following_wishes.forEach(wish => {
+            if (wish.tags.includes(search_box)) {
+                rander_wish(wish)
+            } 
+        })
     } else {
         following_wishes.forEach(wish => {
             rander_wish(wish)
