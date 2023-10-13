@@ -56,70 +56,64 @@
           </div>
         </div>
     </nav>
-      <!-- img{text-align: center;margin-left: auto; margin-right: auto; max-width: fit-content;} -->
+      
     <div class="container">
-        <div id="wish" class="box_big">
-            <h1 id="wish-title" class = "border">wish title</h1>
-            <!-- <hr> -->
-            <div id="wish-tags">태그</div>
-            <!-- <hr> -->
-            <p><a id="wish-author">wish author</a></p>
-            <!-- <hr> -->
-            <div id="wish-image" class="wish-image" id="wish_images">
-                <!-- <img src="..." class="img-fluid" alt="..."> -->
-            </div>
-            <!-- <hr> -->
-            <div id="wish-name">wish 상품명</div>
-            <!-- <hr> -->
-            <div id="wish-content">wish 내용</div>
-            <!-- <hr> -->
-            <div id="wish_author_only" class="text-center m-3"></div> 
-        </div>
-
-        <div id="wish_detail" class="box">
-          <div id="wish_info" class="m-3">
-            <span id="wish_info_time">
-                <span id="wish_created"></span>
-                <span id="wish_updated"></span>
-            </span>
-            <span id="like_bookmark">              
-              <span id="likes">
-                <span id="like">
-                  <button type="button" onclick="submitLike()"><img src="wish/like.png" alt="">좋아요</button>                
-                </span>
-                <span id="likes-list">
-                  좋아요 수, 누르면 좋아요한 사람들 목록 보여주기
-                </span>
-              </span>
-              <span id="bookmarks">
-                <span id="bookmark">
-                  <button type="button" onclick="submitBookmark()"><img src="wish/bookmark.png" alt="">북마크</button>                
-                </span>            
-                <span id="bookmarks-list">
-                    북마크 수, 누르면 좋아요한 사람들 목록 보여주기
-                </span>
-              </span>
-            </span>
+      <div id="wish" class="box_big">
+          <h1 id="wish-title" class = "border">wish title</h1>
+          <div id="wish-tags">태그</div>
+          <p><a id="wish-author">wish author</a></p>
+          <div id="wish-image" class="wish-image" id="wish_images">
+              <!-- <img src="..." class="img-fluid" alt="..."> -->
           </div>
-        </div>
-        <div id="comments" class="box">
-          <form class="m-3">
-              <div class="comment-form" id="comment-form">              
-                <input type="text" id="new-comment" placeholder="댓글을 입력하세요">
-                <button type="button" onclick="submitComment()" id="btn_comment">댓글 작성</button>
-              </div>
-          </form>                
-        </div>
-        <div id="comment_list" class="box">
+          <div id="wish-name">wish 상품명</div>
+          <div id="wish-content">wish 내용</div>
+          <div id="wish_author_only" class="text-center m-3"></div> 
+      </div>
 
+      <div id="wish_detail" class="box">
+        <div id="wish_info" class="m-3">
+          <span id="wish_info_time">
+              <span id="wish_created"></span>
+              <span id="wish_updated"></span>
+          </span>
+          <span id="like_bookmark">              
+            <span id="likes">
+              <span id="like">
+                <button type="button" onclick="submitLike()">좋아요</button>                
+              </span>
+              <span id="likes-list">
+                좋아요 수, 누르면 좋아요한 사람들 목록 보여주기
+              </span>
+            </span>
+            <span id="bookmarks">
+              <span id="bookmark">
+                <button type="button" onclick="submitBookmark()">북마크</button>                
+              </span>            
+              <span id="bookmarks-list">
+                  북마크 수, 누르면 좋아요한 사람들 목록 보여주기
+              </span>
+            </span>
+          </span>
         </div>
       </div>
-                
-                
-            
-    
-    
+      <div id="comments" class="box">
+        <form class="m-3">
+            <div class="comment-form" id="comment-form">              
+              <input type="text" id="new-comment" placeholder="댓글을 입력하세요">
+              <button type="button" onclick="submitComment()" id="btn_comment">댓글 작성</button>
+            </div>
+        </form>                
+      </div>
+      <div id="comment_list" class="box">
+
+      </div>
     </div>
+              
+              
+          
+  
+  
+  </div>
 
     
 </body>

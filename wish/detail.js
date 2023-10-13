@@ -219,7 +219,7 @@ async function loadWishInfo(){
     // wish_likes_span.onclick = wish.likes // 위시를 like한 유저들 리스트 (미완성)
     bookmarks_list.innerText = wish.bookmarks_count
     // wish_bookmarks_span.onclick = wish.bookmarks // 위시를 bookmark한 유저들 리스트(미완성)
-
+    
     likes_span.appendChild(likes_list)
     bookmarks_span.appendChild(bookmarks_list)
     wish_info_div.appendChild(wish_like_bookmark)
@@ -267,6 +267,7 @@ async function submitComment() {
 }
 
 
+// comment 삭제 버튼 누르면 실행되는 함수
 async function commentDelete(comment_id) {
     wish_id=wishIdSearch()
 
@@ -284,6 +285,7 @@ async function commentDelete(comment_id) {
 }
 
 
+// 해당 wish에 대한 모든 comment들 불러오는 함수
 async function loadComments() {
     wish_id=wishIdSearch()
 
@@ -311,7 +313,7 @@ async function loadComments() {
             comment_author_a.innerText = comments[i].author
             comment_author_a.href = "/user/mypage.html?author=" + comments[i].author
             comment_content_span.innerText = comments[i].content
-            comment_created_span.innerText = comments[i].created_at
+            comment_created_span.innerText = comments[i].created_at.slice(2,19)
 
             // comment_author_img 를 서버에서 가져오기 위해선, comment serializer에서 프로필 이미지를 가져오도록 만들어야 하나? (wish의 author의 이미지를 가져오는 것도 동일)
             // comment_author_img.src = `${backend_base_url}` + comments.author.profile_img.src
