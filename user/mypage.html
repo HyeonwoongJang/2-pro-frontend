@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 피드 페이지</title>
+    <script src="mypage.js"></script>
+    <link rel="stylesheet" href="css/mypage.css">
+</head>
+<body>
+    <div>
+        <h1>
+            <div> 
+                <span id="page_owner_1"></span>님의 마이 페이지 
+                <img id="profile_img"></img>
+            </div>
+        </h1>
+    </div>
+    <form>
+        <button type="button" onclick="handleLogout()" style="display:none" id="btn_logout">로그아웃</button>
+    </form>
+    <div id="btn_sign_up_page">
+        <a href="/user/signup.html">
+            <button>회원가입 페이지 가기</button>
+        </a>
+    </div>
+    <div id="btn_login_page">
+        <a href="/user/login.html">
+            <button>로그인 페이지 가기</button>
+        </a>
+    </div>
+    <div id="btn_main_page">
+        <a href="/wish/main.html">
+            <button>메인 페이지 가기</button>
+        </a>
+    </div>
+    <div id="btn_myprofile_page" style="display:none">
+        <a href="/user/myprofile.html">
+            <button>나의 프로필 페이지 가기</button>
+        </a>
+    </div>
+    <div id="btn_follow">
+        <button onclick="follow()">팔로우</button>
+    </div>
+    <div id="following" style="float:left; margin-right:6px;">
+        followings : 
+        <button>
+            <span id="following_count" onclick="following_count()"></span> 
+        </button>
+    </div>
+    <div id="follower">
+        followers : 
+        <button>
+            <span id="follower_count" onclick="follower_count()"></span>
+        </button>
+    </div>
+    <div id="following_list" style="display:none">
+        
+    </div>
+    <div id="follower_list" style="display:none">
+        
+    </div>
+    <div id="m_wish_option">
+        <div style="float:left; margin-right: 15px;">
+            <select id="sort_option">
+                <option>정렬 옵션</option>
+                <option value="latest">최신순</option>
+                <option value="most_likes">좋아요 많은 순</option>
+                <option value="most_bookmarks">북마크 많은 순</option>
+            </select>
+            <button type="button" onclick="sort()">정렬</button>
+        </div>
+        <div>
+            <select id="category_option">
+                <option>검색 옵션</option>
+                <option value="title">위시 제목</option>
+                <option value="content">위시 내용</option>
+                <option value="author">작성자</option>
+                <option value="tag">태그</option>
+            </select>
+            <input type="text" id="search_box" placeholder="검색어를 입력해주세요">
+            <button type="button" onclick="search()">검색</button>
+        </div>
+    </div>
+    <div id="b_wish_option" style="display:none">
+        <div style="float:left; margin-right: 15px;">
+            <select id="b_sort_option">
+                <option>정렬 옵션</option>
+                <option value="latest">최신순</option>
+                <option value="most_likes">좋아요 많은 순</option>
+                <option value="most_bookmarks">북마크 많은 순</option>
+            </select>
+            <button type="button" onclick="b_sort()">정렬</button>
+        </div>
+        <div>
+            <select id="b_category_option">
+                <option>검색 옵션</option>
+                <option value="title">위시 제목</option>
+                <option value="content">위시 내용</option>
+                <option value="author">작성자</option>
+                <option value="tag">태그</option>
+            </select>
+            <input type="text" id="b_search_box" placeholder="검색어를 입력해주세요">
+            <button type="button" onclick="b_search()">검색</button>
+        </div>
+    </div>
+    <div id="l_wish_option" style="display:none">
+        <div style="float:left; margin-right: 15px;">
+            <select id="l_sort_option">
+                <option>정렬 옵션</option>
+                <option value="latest">최신순</option>
+                <option value="most_likes">좋아요 많은 순</option>
+                <option value="most_bookmarks">북마크 많은 순</option>
+            </select>
+            <button type="button" onclick="l_sort()">정렬</button>
+        </div>
+        <div>
+            <select id="l_category_option">
+                <option>검색 옵션</option>
+                <option value="title">위시 제목</option>
+                <option value="content">위시 내용</option>
+                <option value="author">작성자</option>
+                <option value="tag">태그</option>
+            </select>
+            <input type="text" id="l_search_box" placeholder="검색어를 입력해주세요">
+            <button type="button" onclick="l_search()">검색</button>
+        </div>
+    </div>
+    <div id="btn_wish_list" style="display:none">
+        <button type="button" onclick="my_wish_list()" id="btn_my_wish_list"><span id="page_owner_2"></span>님의 위시 리스트</button>
+        <button type="button" onclick="like_wish_list()" id="btn_like_wish_list"><span id="page_owner_3"></span>님의 좋아요 위시 리스트</button>
+        <button type="button" onclick="bookmark_wish_list()" id="btn_bookmark_wish_list"><span id="page_owner_4"></span>님의 북마크 위시 리스트</button>
+    </div>
+    
+    <div id="wish_list">
+
+    </div>
+
+</body>
+</html>
