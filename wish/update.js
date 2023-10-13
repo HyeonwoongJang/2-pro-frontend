@@ -32,6 +32,19 @@ async function loadWish(){
 
     // const wishAuthor = document.getElementById("wish-author")
     const wishTitle = document.getElementById("wish-title-input")
+    const wishTags = document.getElementById("wish-tags")
+
+    if (response_json.tags) {
+        
+        for (let i = 0; i < response_json.tags.length; i++) {
+
+            const wishTag = response_json.tags[i].name
+            wishTag.setAttribute("id",`wishTag${i}`)
+            wishTag.setAttribute("class","border border-2 border-dark")
+            wishTags.value += `${response_json.tags[i].name} `     
+        }
+    } else {}
+
     const wishName = document.getElementById("wish-name-input")
     const wishContent = document.getElementById("wish-content-input")
     const wish_images = document.getElementById("wish-images")
@@ -57,12 +70,14 @@ async function loadWish(){
         
 
         // 원본 이미지 삭제 버튼
+        const wish_img_del_div =document.createElement('div')
         const wish_img_del = document.createElement("button")
         wish_img_del.innerText = "이미지 삭제"
         wish_img_del.setAttribute("type", "button")        
         wish_img_del.setAttribute("onclick", `wishImgDel(wishImage${[i]}, ${response_json.images[i].id})`)
         
-        wishImage.appendChild(wish_img_del)
+        wish_img_del_div.appendChild(wish_img_del)
+        wishImage.appendChild(wish_img_del_div)
         wishImages.appendChild(wishImage)
         
         }
@@ -75,7 +90,8 @@ async function loadWish(){
     wish_img_input.setAttribute("type", "file")
     wish_img_input.setAttribute("id", "wish-images-input")
     wish_img_input.setAttribute("multiple", "multiple")
-    wish_img_input.setAttribute("accept", ".png, .jpeg")
+    // wish_img_input.setAttribute("accept", ".png, .jpeg")
+    wish_img_input.setAttribute("class", "form-control")
     
     wishNewImages.appendChild(wish_img_input)
     wish_images.appendChild(wishNewImages)

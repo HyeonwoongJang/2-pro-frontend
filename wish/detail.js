@@ -1,14 +1,7 @@
 const frontend_base_url = "http://127.0.0.1:5500"
 const backend_base_url = "http://127.0.0.1:8000"
 
-function test2() {
-    document.getElementById("mydiv").style.top="100px";
-    document.getElementById("mydiv").style.left="150px";
-    document.getElementById("mydiv").style.width="400px";
-    document.getElementById("mydiv").style.height="300px";
-    document.getElementById("mydiv").style.backgroundColor="green";
-    document.getElementById("mydiv").style.position="absolute";
-}
+
 
 // 위시 아이디 값 찾는 함수
 function wishIdSearch() {
@@ -34,16 +27,22 @@ async function loadWish(){
     const wishContent = document.getElementById("wish-content")
 
     wishAuthor.innerText = response_json.author
-    wishAuthor.href = `/user/mypage.html?author=` + response_json.author
+    wishAuthor.href = `${frontend_base_url}/user/mypage.html?author=` + response_json.author
+
+
     // tag들 불러오기
-    if (response_json.tags.length > 0) {
+    if (response_json.tags) {
         
         for (let i = 0; i < response_json.tags.length; i++) {
 
             const wishTag = document.createElement('span')
             wishTag.setAttribute("id",`wishTag${i}`)
-            wishTag.setAttribute("class","border border-5 border-dark")
+            wishTag.setAttribute("class","border border-2 border-dark")
             wishTag.innerText = response_json.tags[i].name
+            
+            // wishTag.style.borderStyle ="solid"
+            // wishTag.style.setAttribute("class", "badge bg-light text-dark")
+            
             wishTags.appendChild(wishTag)        
         }
     } else {}
@@ -58,11 +57,12 @@ async function loadWish(){
     if (response_json.images && response_json.images.length > 0) {
         let imagesHtml = '';
         for (let i = 0; i < response_json.images.length; i++) {
-            imagesHtml += `<img src="${backend_base_url}${response_json.images[i].image}" alt="Wish Image">`;    // alt -> img 태그에서 img가 안 나왔을 때 img를 대체하는 문자열/정보
+            imagesHtml += `<img src="${backend_base_url}${response_json.images[i].image}" alt="Wish Image" class="wish_image"><br>`;    // alt -> img 태그에서 img가 안 나왔을 때 img를 대체하는 문자열/정보
+
         }
         wishImage.innerHTML = imagesHtml;
     } else {
-            wishImage.innerHTML = `<img src="${backend_base_url}/media/images/DefaultThumbnail.png" alt="Default Image">`;
+            wishImage.innerHTML = `<img src="${backend_base_url}/media/images/DefaultThumbnail.png" alt="Default Image" class=wish_image>`;
         }
     
     var wish_author = wishAuthor.innerText
@@ -197,28 +197,31 @@ async function loadWishInfo(){
     const wish = await response.json()
     console.log(wish)
 
-
     const wish_detail_div = document.getElementById('wish_detail')
     const wish_info_div = document.getElementById('wish_info')
+    const wish_info_time = document.getElementById('wish_info_time')
+    const wish_created_span =document.getElementById('wish_created')
+    const wish_updated_span = document.getElementById('wish_updated')
+    
+    const bookmarks_span = document.getElementById('bookmarks')
+    const likes_span = document.getElementById('likes')
     const wish_like_bookmark =document.getElementById('like_bookmark')
+    const likes_list = document.getElementById('likes-list')
+    const bookmarks_list = document.getElementById('bookmarks-list')
 
-    const wish_created_div =document.getElementById('wish_created')
-    const wish_updated_div = document.getElementById('wish_updated')
-    const wish_likes_span = document.getElementById('likes')
-    const wish_bookmarks_span = document.getElementById('bookmarks')
+    wish_created_span.innerText = '작성시간: '+ wish.created_at.slice(2,19)
+    wish_updated_span.innerText = "수정시간: " + wish.updated_at.slice(2,19)
 
-    wish_created_div.innerText = "작성시간: " + wish.created_at
-    wish_updated_div.innerText = "수정시간: " + wish.updated_at
+    wish_info_time.appendChild(wish_created_span)
+    wish_info_time.appendChild(wish_updated_span)
 
-    wish_info_div.appendChild(wish_created_div)
-    wish_info_div.appendChild(wish_updated_div)
-    wish_likes_span.innerText = wish.likes_count + " likes "
+    likes_list.innerText = wish.likes_count
     // wish_likes_span.onclick = wish.likes // 위시를 like한 유저들 리스트 (미완성)
-    wish_bookmarks_span.innerText = wish.bookmarks_count + " bookmarks"
+    bookmarks_list.innerText = wish.bookmarks_count
     // wish_bookmarks_span.onclick = wish.bookmarks // 위시를 bookmark한 유저들 리스트(미완성)
 
-    wish_like_bookmark.appendChild(wish_likes_span)
-    wish_like_bookmark.appendChild(wish_bookmarks_span)
+    likes_span.appendChild(likes_list)
+    bookmarks_span.appendChild(bookmarks_list)
     wish_info_div.appendChild(wish_like_bookmark)
     wish_detail_div.appendChild(wish_info_div)
 
@@ -296,11 +299,11 @@ async function loadComments() {
         for (let i = 0; i < comments.length; i++) {
 
             const comment_div = document.createElement('div')
-            comment_div.name =comments[i].id
+            comment_div.class ="comment"
             
             // comment id
             const comment_author = document.createElement('span')
-            const comment_author_img = document.createElement('img')
+            // const comment_author_img = document.createElement('img')
             const comment_author_a = document.createElement('a')
             const comment_content_span = document.createElement('span')
             const comment_created_span = document.createElement('span')
@@ -314,7 +317,7 @@ async function loadComments() {
             // comment_author_img.src = `${backend_base_url}` + comments.author.profile_img.src
 
             
-            comment_author.appendChild(comment_author_img)
+            // comment_author.appendChild(comment_author_img)
             comment_author.appendChild(comment_author_a)
             comment_div.appendChild(comment_author)
             comment_div.appendChild(comment_content_span)
@@ -329,6 +332,7 @@ async function loadComments() {
                 const comment_delete_btn = document.createElement('button')
                 comment_delete_btn.type = 'button'
                 comment_delete_btn.innerText = "삭제"
+                comment_delete_btn.style.textAlign
                 comment_delete_btn.setAttribute("onclick", `commentDelete(${comments[i].id})`)  // comment의 pk값을 commentDelete함수의 인자에 넣어서 데이터를 보내준다.
                 comment_div.appendChild(comment_delete_btn)
             } else {}
