@@ -2,6 +2,7 @@ const frontend_base_url = "http://127.0.0.1:5500"
 const backend_base_url = "http://127.0.0.1:8000"
 
 
+// wishId를 url을 통해서 찾는 함수
 function wishIdSearch() {
     const url = window.location.href
     const url_split = url.split(["?"])[1]
@@ -10,6 +11,8 @@ function wishIdSearch() {
     return wish_id
 }
 
+
+// 이미지 삭제 버튼을 누르면 실행되는 함수
 deleted_image_ids = []
 
 function wishImgDel(wish_img, deleted_image_id) {
@@ -23,6 +26,7 @@ function wishImgDel(wish_img, deleted_image_id) {
     
 }
 
+// wish에 담겨있는 정보를 불러오는 함수
 async function loadWish(){
     const wish_id=wishIdSearch()
 
@@ -30,17 +34,17 @@ async function loadWish(){
     const response_json = await response.json()
     console.log(response_json)
 
-    // const wishAuthor = document.getElementById("wish-author")
+    
     const wishTitle = document.getElementById("wish-title-input")
-    const wishTags = document.getElementById("wish-tags")
+    const wishTags = document.getElementById("wish-tags-input")
 
     if (response_json.tags) {
         
         for (let i = 0; i < response_json.tags.length; i++) {
 
             const wishTag = response_json.tags[i].name
-            wishTag.setAttribute("id",`wishTag${i}`)
-            wishTag.setAttribute("class","border border-2 border-dark")
+            wishTag.id =`wishTag${i}`
+            wishTag.class = "border border-2 border-dark"
             wishTags.value += `${response_json.tags[i].name} `     
         }
     } else {}
@@ -62,7 +66,7 @@ async function loadWish(){
         
         // 이미지 요소 하나씩 만들어주고 띄워주기
         const wish_img = document.createElement("image")
-        imageHtml = `<img src="${backend_base_url}${response_json.images[i].image}" alt="Wish Image">`;
+        imageHtml = `<img src="${backend_base_url}${response_json.images[i].image}" alt="Wish Image" class = "wish_image">`;
         wish_img.innerHTML = imageHtml;
         wish_img.id = `image${[i]}`
        
@@ -75,7 +79,8 @@ async function loadWish(){
         wish_img_del.innerText = "이미지 삭제"
         wish_img_del.setAttribute("type", "button")        
         wish_img_del.setAttribute("onclick", `wishImgDel(wishImage${[i]}, ${response_json.images[i].id})`)
-        
+        wish_img_del.class = "wish_img_del"
+
         wish_img_del_div.appendChild(wish_img_del)
         wishImage.appendChild(wish_img_del_div)
         wishImages.appendChild(wishImage)
@@ -84,34 +89,25 @@ async function loadWish(){
     } else {}
     wish_images.appendChild(wishImages) // wish_images(이미지와 버튼이 들어간 wishImage들을 묶어놓은 wishImages를 )
 
-    // 새로운 사진 추가
+    // 새롭게 추가할 사진(들)이 들어간 input 생성
     const wishNewImages = document.createElement("div")
     const wish_img_input = document.createElement("input")
     wish_img_input.setAttribute("type", "file")
     wish_img_input.setAttribute("id", "wish-images-input")
     wish_img_input.setAttribute("multiple", "multiple")
-    // wish_img_input.setAttribute("accept", ".png, .jpeg")
     wish_img_input.setAttribute("class", "form-control")
     
     wishNewImages.appendChild(wish_img_input)
     wish_images.appendChild(wishNewImages)
 
-    //새로 추가할 이미지 인풋(multiple)
-    // if (response_json.images && response_json.images.length > 0) {
-    //     let imageHtml = '';
-    //     for (let i = 0; i < response_json.images.length; i++) {
-    //     }
-    // }
 
     wishTitle.value = response_json.title
     wishName.value = response_json.wish_name
     wishContent.value = response_json.content
-    // wishAuthor.innerText =response_json.author_id
-
-
     
 }
 
+// 수정하기 버튼이 누르면 실행되는 함수
 async function handleUpdate() {
 
     const wish_id=wishIdSearch()
@@ -134,24 +130,19 @@ async function handleUpdate() {
     // formData에 넣어줄 값들 정의
     const wishAuthor= author_id
     const wishTitle = document.getElementById("wish-title-input").value
+    const wishTags = document.getElementById("wish-tags-input").value
     const wishName = document.getElementById("wish-name-input").value
     const wishContent = document.getElementById("wish-content-input").value
 
-    // if (wishImages.length > 0) {
-    //     wishImages = document.getElementById("").files
-    // }
-    
     
     const wishNewImages = document.getElementById("wish-images-input").files
     console.log(wishNewImages)
     
 
-
-
-
     const formData = new FormData();
     formData.append("author", wishAuthor);
     formData.append("title", wishTitle);
+    formData.append("tags", wishTags);
     formData.append("wish_name", wishName);
     formData.append("content", wishContent);
     // formData.append("images", wishImages);
